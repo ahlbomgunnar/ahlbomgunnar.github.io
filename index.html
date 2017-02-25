@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>A | Gunnar</title>
+	<meta charset="UTF-8"/>
+	<meta name="keywords" content="Frontend Web Development"/>
+	<meta name="description" content="Github repository of Gunnar Ahlbom"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link type="text/css" rel="stylesheet" href="assets/materialize.css" media="screen, projection"/>
+	<link type="text/css" rel="stylesheet" href="assets/style.css"/>
+	<script src="https://use.fontawesome.com/e58e7af208.js"></script>
+</head>
+<body onload="createCards()">
+
+<div id="body-scroll-fix">
+
+	<!--| Welcome Page |-->
+	<div id="welcome-page" class="£view_height £view_width £font-family-grotesk £letter-spacing-sm £bg-color-dark £text-shadow">
+		<canvas class="£abs £abs_top £abs_left £abs_right £abs_bottom £bg-color-dark" id="canvas"></canvas>
+		<p href="#work-page" class="£font-size-xl £margin-auto go-work-icon">
+			<i class="fa fa-arrow-down" aria-hidden="true"></i>
+		</p>
+		<div class="valign-wrapper £abs £abs_top £abs_left £abs_right £abs_bottom">
+			<h1 id="header" class="valign £margin-auto £font-color-light"></h1>
+		</div>
+		<div class="£abs £abs_top £abs_left">
+			<p class="£margin-xl £padding-xl £font-size-sm £font-color-light"> Gunnar Ahlbom, Frontend Developer </p>
+		</div>
+		<div class="£abs £abs_top £abs_right">
+			<a class="£font-color-light">
+				<p class="£margin-xl £padding-xl"> Work </p>
+			</a>
+		</div>
+		<div class="£abs £abs_bottom £abs_left">
+			<a class="£font-color-light">
+				<p class="£margin-xl £padding-xl"> About </p>
+			</a>
+		</div>
+		<div class="£abs £abs_bottom £abs_right">
+			<a class="£font-color-light">
+				<p class="£margin-xl £padding-xl"> Contact </p>
+			</a>
+		</div>
+	</div>
+
+	<!--| Work Page |-->
+	<div id="work-page" class="£view_width £height_fluid">
+		<div class="row">
+			<div class="col s12 center-align"><br/><h3 class="£font-weight-bold £padding-xl">WORK & PROJECTS</h3></div>
+		</div>
+		<div class="row">
+			<div class="col s12" id="cards-container"></div>
+		</div>
+	</div>
+
+	<!--| About Page |-->
+	<div class="£view-width £height_fluid £bg-color-dark £font-color-light">
+		<div class="£padding-xl">
+			<h3> Hi, I'm Gunnar. </h3>
+			<h5>I am a frontend web development student currently studying my last year in Gothenburg.</h5>
+			<h5>As a person I love being creative, learning new things and solving problems. I believe that learning and logical thinking is a way to a better society.</h5>
+			<h5>I enjoy listening to others and helping where i can. Nobody can do everything but i try my best at helping others becoming more efficient and productive.</h5>
+			<h5>Most of my frontend experience comes from self-made projects and applications, but some come from the various development tasks handed out at the university.</h5>
+			<br/>
+			<br/>
+			<hr/>
+			<br/>
+		</div>
+	</div>
+
+	<div class="£view-width £height_fluid £bg-color-dark £font-color-light £padding-xl">
+		<div class="col s12 center-align">
+			<h3 class="£font-weight-bold"> Get in touch with me </h3>
+			<ul class="£font-size-lg">
+				<li class="footer-links"><a href="#" class="£font-color-light"><p><span><i class="fa fa-linkedin" aria-hidden="true"></i> LinkedIn</span><br/> Gunnar Ahlbom</p></a></li>
+				<li class="footer-links"><a href="#" class="£font-color-light"><p><span><i class="fa fa-envelope" aria-hidden="true"></i> Mail</span><br/> Gahlbom@gmail.com</p></a></li>
+				<li class="footer-links"><a href="#" class="£font-color-light"><p><span><i class="fa fa-phone" aria-hidden="true"></i> Phone</span><br/> +4721806499</p></a></lI>
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+
+
+<!--| Project Viewport |-->
+<div id="project-viewport" class="£bg-color-dark £font-color-light">
+	<div class="container">
+		<div id="project-nav">
+			<i id="close-project" class="fa fa-times" aria-hidden="true" onclick="closeProject()"></i>
+		</div>
+		<div class="row" id="projectOpacityControl">
+			<div class="col s12 m6 center-left">
+				<div id="project-header" class="valign"></div>
+		        <span id="description-span" class="£font-color-light"></span>
+		        <br/>
+		        <a href="#" id="project-url" target="_blank" class="£main-button">See it live <i class="fa fa-external-link" aria-hidden="true"></i></a>
+			</div>
+			<div class="col s12 m6 £rel project-images">
+		        <img id="first-project-image" alt="first-project-image" width=90%/>
+		        <img id="second-project-image" alt="second-project-image" width=35%/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s6 £col-spacing-sm">
+		        <span class="project-heading">Released</span>
+		        <p id="project-release-date"></p>
+			</div>
+			<div class="col s6 £col-spacing-sm">
+		        <span class="project-heading">Technologies</span>
+		        <ul id="technology-list"></ul>
+			</div>	
+		</div>
+	</div>
+</div>
+
+
+
+<script src="assets/canvas.js"></script>
+<script src="assets/app.js"></script>
+
+</body>
+</html>
