@@ -21,10 +21,6 @@ let canvas = document.getElementById("canvas"),
 	minDist = 150,
 	dist,
 	drag = 0.9;
-	
-console.log(particleCount)
-
-
 
 
 

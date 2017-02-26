@@ -15,7 +15,7 @@ body {opacity:1; transition:0.25s ease;}
 .£view_height  {height:100vh;}
 .£height_fluid {height:auto;}
 
-.£width_50 {width:50px;}
+.£width_50     {width:50px;}
 
 /* ---| FONTS & COLORS |--- */
 
@@ -152,8 +152,7 @@ body {opacity:1; transition:0.25s ease;}
   100% {opacity: 0;}}
 
 #cards-container .card {
-  display: inline-block;
-  overflow: visible;}
+  display: inline-block;}
 @media only screen and (max-width: 700px) {
   #cards-container {
     -webkit-column-count: 1;
@@ -213,12 +212,17 @@ body {opacity:1; transition:0.25s ease;}
   cursor:pointer;
   color:#fff;}
 
-
-
-
 #description-span h5 {
   color:#aaa;
   font-style:italic;
+}
+
+#description-span a {
+  color:rgb(253,151,31);
+}
+
+#description-span a:hover {
+  text-decoration:underline;
 }
 
 #first-project-image {
