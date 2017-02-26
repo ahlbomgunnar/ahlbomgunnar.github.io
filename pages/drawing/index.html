@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	canvas:hover {
+		cursor:crosshair;
+	}
+</style>
+<title>LAB 3</title>
+<script>
+
+
+
+var canvas;
+var c;
+var pos = {x:0, y:0};
+var userInput = [];
+
+function init() {
+	canvas = document.getElementById("canvas");
+	c = canvas.getContext("2d");
+	
+	canvas.addEventListener('mousemove', function(e) {
+		pos = getMousePos(canvas, e);
+		var msg = 'Mouse Position: ' + pos.x + ',' + pos.y;
+		writePos(canvas, msg);
+	});}
+
+
+
+
+
+
+	function Polygon(array) {
+		this.array = array;
+		this.id = 'Polygon';
+		this.color = 'Red'}
+	function Circle(x, y, radius) {
+		this.x = x;
+		this.y = y;
+		this.r = radius;
+		this.id = 'Circle';
+		this.color = 'blue'}
+	function Rectangle(x1, y1, x2, y2) {
+		this.x1 = x1;
+		this.x2 = x2;
+		this.y1 = y1;
+		this.y2 = y2;
+		this.id = 'Rectangle';
+		this.color = 'lime'}
+	function Triangle(x1, y1, x2, y2, x3, y3) {
+		this.x1 = x1; this.x2 = x2; this.x3 = x3;
+		this.y1 = y1; this.y2 = y2; this.y3 = y3;
+		this.id = 'Triangle';
+		this.color = 'yellow'}
+
+	Polygon.prototype.move = function(dx, dy) {
+		for (let i=0; i<this.array.length; i++) {
+			this.array[i].x += dx;
+			this.array[i].y += dy;}};
+	Polygon.prototype.points = function() {
+		let points = [];
+		for (let i=0; i<this.array.length; i++) {
+			let newX = this.array[i].x; 
+			let newY = this.array[i].y;
+			let newPoint = {x : newX, y : newY};
+			points.push(newPoint);}
+		return points;};
+	function drawPolygon(array) {
+		c.fillStyle = 'red';
+		c.beginPath();
+		c.moveTo(array[0].x, array[0].y);
+		for (let i in array) {
+			c.lineTo(array[i].x,array[i].y);}
+		c.closePath();
+		c.fill();}
+
+	Circle.prototype.move = function(dx, dy) {
+		this.x += dx; this.y += dy;};
+	Circle.prototype.points = function() {
+		return [{x:this.x, y:this.y}];};
+	function drawCircle(obj) {
+		c.fillStyle = obj.color;
+		c.beginPath();
+		c.arc(obj.x, obj.y, obj.r, 0, 2*Math.PI);
+		c.stroke();
+		c.fill();}
+	
+	Rectangle.prototype.move = function(dx, dy) {
+		this.x1 += dx; this.x2 += dx;
+		this.y1 += dy; this.y2 += dy;};
+	Rectangle.prototype.points = function() {
+		return [{x:this.x1, y:this.y1}, {x:this.x2, y:this.y1}, {x:this.x1, y:this.y2}, {x:this.x2, y:this.y2}];};
+	function drawRectangle(obj) {
+		c.fillStyle = obj.color;
+		c.beginPath();
+		c.fillRect(obj.x1,obj.y1,obj.x2,obj.y2);
+		c.stroke();
+		c.fill();}
+		
+	Triangle.prototype.move = function(dx, dy) {
+		this.x1 += dx; this.x2 += dx; this.x3 += dx;
+		this.y1 += dy; this.y2 += dy; this.y3 += dy;};
+	Triangle.prototype.points = function() {
+		return [{x:this.x1, y:this.y1}, {x:this.x2, y:this.y2}, {x:this.x3, y:this.y3}];};
+	function drawTriangle(obj) {
+		c.fillStyle = obj.color;
+		c.beginPath();
+		c.moveTo(obj.x1,obj.y1);
+		c.lineTo(obj.x2,obj.y2);
+		c.lineTo(obj.x3,obj.y3);
+		c.lineTo(obj.x1,obj.y1);
+		c.stroke();
+		c.fill();}
+
+	var fig1 = new Circle(5, 8, 4);
+	var fig2 = new Rectangle(25, 25, 79, 54);
+	var fig3 = new Triangle(30, 176, 70, 30, 161, 156);
+	var figX = new Circle(114,156,43);
+	var figY = new Circle(3,3,1);
+	let figZ = new Polygon([{x:12, y:14}, {x:113, y:16}, {x:54, y:78}, {x:32, y:64}]);
+	let figG = new Polygon([{x:214, y:18}, {x:140, y:100}, {x:255, y:67}, {x:244, y:4}]);
+	var Drawings = [];
+	Drawings.push(figG, fig2, figX, fig3);
+
+
+	function draw() {
+		c.clearRect(0,0,canvas.width,canvas.height);
+
+		for (let i in Drawings) {
+			if (Drawings[i].id == 'Polygon') {
+				drawPolygon(Drawings[i].array);
+			}
+			else if (Drawings[i].id == 'Circle') {
+				drawCircle(Drawings[i]);
+			}
+			else if (Drawings[i].id == 'Triangle') {
+				drawTriangle(Drawings[i]);
+			}
+			else if (Drawings[i].id == 'Rectangle') {
+				drawRectangle(Drawings[i]);
+			}
+		}
+
+	crosshairs();
+	Input();
+
+	} setInterval(draw, 10);
+
+
+
+
+
+
+
+
+function Input() {
+	for (let i=0; i<userInput.length; i++) {
+		c.fillStyle = 'black';
+		c.beginPath();
+		c.arc(userInput[i].x,userInput[i].y,2,0,2 * Math.PI);
+		c.fill();
+	}
+
+	if (userInput.length > 2) {
+		c.fillStyle = 'rgba(0,0,0,0.3)';
+		c.beginPath();
+		c.moveTo(userInput[0].x, userInput[0].y);
+		for (let i=0; i<userInput.length; i++) {
+			if (userInput[i] == undefined) {
+				c.lineTo(userInput[0].x,userInput[0].y);
+			}
+			else {
+				c.lineTo(userInput[i].x,userInput[i].y);
+			}
+		}
+		c.closePath();
+		c.fill();
+
+	}
+}	
+
+
+
+
+
+
+
+
+
+
+	function crosshairs() {
+		c.lineWidth = 1;
+		c.strokeStyle = 'rgba(0,0,0,0.7)'
+		c.beginPath();
+		//Horizontal line
+		c.moveTo(pos.x,canvas.height);
+		c.lineTo(pos.x,0);
+		//Verical line
+		c.moveTo(canvas.width,pos.y);
+		c.lineTo(0,pos.y);
+		c.stroke();}
+	function getMousePos(canvas, e) {
+		var rect = canvas.getBoundingClientRect();
+		return {
+			x: e.clientX - rect.left,
+			y: e.clientY - rect.top};}
+	function writePos(canvas, msg) {
+	    document.getElementById('mousePos').innerHTML = msg;}
+
+
+
+//Click Position
+function getClickPosition(e) {
+    var rect = canvas.getBoundingClientRect();
+    let currPos = {
+			x: e.clientX - rect.left,
+			y: e.clientY - rect.top};
+    userInput.push(currPos);
+
+}
+
+	
+
+
+function Clear() {
+	Drawings = [];
+}
+
+function buttonPolygon() {
+	canvas.addEventListener("click", getClickPosition, false);
+
+	var cv = document.getElementById('btnPolygon');
+	cv.innerHTML = 'Complete Polygon';
+	cv.onclick = function() {buttonCompletePolygon();};
+}
+
+function buttonCompletePolygon() {
+	canvas.removeEventListener('click', getClickPosition)
+	var cv = document.getElementById('btnPolygon');
+	cv.innerHTML = 'New Polygon';
+	cv.onclick = function() {buttonPolygon();};
+	let tempPolygon = new Polygon(userInput);
+	Drawings.push(tempPolygon);
+	userInput = [];
+}
+
+
+	</script>
+</head>
+<body onload="init()">
+<h2 id="statusbar"></h2>
+<canvas id="canvas" height=500 width=800 style="border:1px solid black">Your browser does not support canvas</canvas><br/>
+<button type="button" id="btnPolygon" onclick="buttonPolygon()">New Polygon</button>
+
+<button type="button" id="btnRectangle" onclick="buttonRectangle()">New Rectangle</button>
+<button type="button" id="btnTriangle" onclick="buttonTriangle()">New Triangle</button>
+<button type="button" id="btnCircle" onclick="buttonCircle()">New Circle</button>
+<button type="button" id="btnCancel" onclick="buttonCancel()">Cancel</button>
+<button type="button" id="btnClear" onclick="Clear()">Clear</button>
+
+<button type="button" id="btnImportJSON" onclick="buttonImportJSON()">Import/Load</button>
+<button type="button" id="btnExportJSON" onclick="buttonExportJSON()">Export/Save</button>
+<select id="colorpicker">
+	<option value="black">Black</option>
+	<option value="red">Red</option>
+	<option value="green">Green</option>
+	<option value="blue">Blue</option>
+</select>
+<p id="mousePos">Mouse Position: 0,0</p>
+</body>
+</html>
