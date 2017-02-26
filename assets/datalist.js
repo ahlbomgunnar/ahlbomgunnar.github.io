@@ -26,7 +26,7 @@ var datalist = [
         technologies:['HTML5', 'CSS & Animations', 'JavaScript & Canvas', 'Audio', 'Web Video'],
         projectImgOne:'assets/img/atoms-web.png',
         projectImgTwo:'assets/img/atoms-mobile.png',
-        href: 'pages/atoms'    
+        href: 'pages/atom'    
     },
     { 
         name:'Kaffelicious',
