@@ -77,7 +77,9 @@ function hideOverlays() {
 function openEventLog() {
 	console.log('opened eventlog')
 	let eList = getID('eventList');
-	eList.setAttribute('onClick', 'javascript: closeEventLog();');
+	eList.onclick = function() {
+   closeEventLog();
+	};
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
 	eList.style.visibility = 'visible';
@@ -86,7 +88,9 @@ function openEventLog() {
 function closeEventLog() {
 	console.log('closed eventlog')
 	let eList = getID('eventList');
-	eList.setAttribute('onClick', 'javascript: openEventLog();');
+	eList.onclick = function() {
+   openEventLog();
+	};
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
 	eList.style.visibility = 'hidden';
@@ -118,7 +122,7 @@ function updateLocalData(response) {
 	for(let i in data) {
 		createBookObject(data[i]);
 	}
-	log('Local data updated.');
+	log('Data updated.');
 }
 
 
@@ -242,18 +246,20 @@ function manipulateData(url,method) {
 				else {
 					viewData();}
 				}
-		  	else {
-		  		manipulateData(url, method);
-		  	}
+			// If unsuccessful, induce recursion
+		  else {
+		  	manipulateData(url, method);
+		  }
 		})
 		.catch(function(error) {
-			// If failed to load, hide overlays and display error on event log
+			// If failed, hide overlays and display error on event log
 			manipulateDOM('hide', 'loadingOverlay');
 			log('Error recieved: ' + error);
 		});
 }
 
 function getHttp(method, url) {
+	// Returns a promise for an XMLHttpRequest
   return new Promise(function(resolve, reject) {
     let http = new XMLHttpRequest();
     http.onreadystatechange = function() {
