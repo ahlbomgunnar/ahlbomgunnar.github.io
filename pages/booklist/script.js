@@ -60,18 +60,15 @@ function hideOverlays() {
 	manipulateDOM('hide', 'loadingOverlay');}
 
 
-getID('eventListMenu').addEventListener('click', function() {
-	var eventList;
-	if(eventList === undefined) {eventList = false;}
-	if(eventList === true) {closeEventLog(); eventList = false;}
-	else {openEventLog(); eventList = true;}});
 function openEventLog() {
 	let eList = getID('eventList');
+	eList.setAttribute("onClick", "javascript: closeEventLog();");
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
 	eList.style.visibility = 'visible';}
 function closeEventLog() {
 	let eList = getID('eventList');
+	eList.setAttribute("onClick", "javascript: openEventLog();");
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
 	eList.style.visibility = 'hidden';}
