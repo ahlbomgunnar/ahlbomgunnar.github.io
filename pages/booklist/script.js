@@ -282,10 +282,5 @@ function getHttp(method, url) {
   });
 }
 
-document.body.addEventListener('onload', function() {
-	getID('nav').addEventListener('onload', function() {
-		manipulateDOM('display', 'nav');
-	})
-})
-
+		
 
