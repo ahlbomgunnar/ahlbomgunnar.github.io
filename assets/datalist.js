@@ -1,6 +1,19 @@
 
 
 var datalist = [ 
+	{ /* --- Done --- */
+        name:'Pick',
+        desc:'Application for people who does not know where to go.',
+        date:'March 2017',
+        src :'assets/img/pick.png',
+        quote:'Take the quiz to know where you should go.',
+        filler:['Pick is a travel app that uses a questionnaire to determine what country you should travel to. My contribution was mainly the JavaScript get country functions and search algorithms, working as a Scrum master in the project.',
+        		'Collaborated together with Christina, Imran, Klara and Mona.'],
+        technologies:['HTML5 + BootStrap', 'CSS', 'UX/UI(Balsamiq Mockups,PhotoShop)', 'JavaScript + AJAX', 'APIS: MediaWiki, FourSquare, Pixabay, Google Maps, OpenWeatherMap' ],
+        projectImgOne:'assets/img/pick-web.png',
+        projectImgTwo:'assets/img/pick-mobile.png',
+        href: 'pages/pick'
+    },
     { /* --- Done --- */
         name:'Astrocy',
         desc:'Astronomy webshop built as part of a graphics and user-interface course.',
