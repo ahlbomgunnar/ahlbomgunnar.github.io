@@ -11,6 +11,8 @@ var editID = null;
 
 
 
+
+
 let getID = id => document.getElementById(id);
 
 function manipulateDOM(action, id) {
@@ -281,8 +283,4 @@ function getHttp(method, url) {
   });
 }
 
-
-getID('app').addEventListener('load', function() {
-	manipulateDOM('display', 'app');
-})
 

@@ -4,12 +4,7 @@ html, body {
 	background-color:rgb(30,30,30);
 	min-width:500px;}
 
-#app {
-	visibility:hidden;
-	opacity:0;
-}
-
-nav {
+.nav {
 	background:#111; 
     background:-webkit-linear-gradient(#111, #333);
     background:linear-gradient(#111, #333);
