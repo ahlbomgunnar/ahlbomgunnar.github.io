@@ -5,6 +5,7 @@ html, body {
 	min-width:600px;}
 
 #nav {
+	min-width:600px;
 	background:#111; 
     background:-webkit-linear-gradient(#111, #333);
     background:linear-gradient(#111, #333);

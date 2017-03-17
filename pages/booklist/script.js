@@ -117,18 +117,20 @@ function closeEventLog() {
 function log(type, text) {
 	let time = new Date().toLocaleTimeString('en-GB', {hour:'numeric', minute:'numeric'});
 	let textNode = document.createElement('p');
+	console.log(text);
 	switch(type) {
-		case 'error': text='<span class="eventError">'+text+'</span>';
+		case 'error'     : text = '<span class="eventError">'     +text+ '</span>';
 			break;
-		case 'success': text='<span class="eventSuccess">'+text+'</span>';
+		case 'success'   : text = '<span class="eventSuccess">'   +text+ '</span>';
 			break;
-		case 'request': text='<span class="eventRequest">'+text+'</span>';
+		case 'request'   : text = '<span class="eventRequest">'   +text+ '</span>';
 			break;
-		case 'recursion': text='<span class="eventRecursion">'+text+'</span>';
+		case 'recursion' : text = '<span class="eventRecursion">' +text+ '</span>';
 			break;
-		case 'update': text='<span class="eventUpdate">'+text+'</span>';
+		case 'update'    : text = '<span class="eventUpdate">'    +text+ '</span>';
 			break;
 	}
+	console.log(text)
 	textNode.innerHTML = time + ' - ' + text;
 	getID('eventList').appendChild(textNode);
 }
