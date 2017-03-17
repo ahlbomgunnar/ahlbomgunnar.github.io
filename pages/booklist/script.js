@@ -80,22 +80,22 @@ function hideOverlays() {
 }
 
 function openEventLog() {
-	console.log('opened eventlog')
+	console.log('opened eventlog');
 	let eList = getID('eventList');
-	eList.onclick = function() {
-   		closeEventLog();
-	};
+	setTimeout(function() {
+		eList.setAttribute('onclick','closeEventLog();');
+	},150);
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
 	eList.style.visibility = 'visible';
 }
 
 function closeEventLog() {
-	console.log('closed eventlog')
+	console.log('closed eventlog');
 	let eList = getID('eventList');
-	eList.onclick = function() {
-    	openEventLog();
-	};
+	setTimeout(function() {
+		eList.setAttribute('onclick','openEventLog();');
+	},150);
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
 	eList.style.visibility = 'hidden';
