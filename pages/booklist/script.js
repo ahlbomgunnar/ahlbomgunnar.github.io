@@ -77,7 +77,7 @@ function hideOverlays() {
 function openEventLog() {
 	console.log('opened eventlog')
 	let eList = getID('eventList');
-	eList.setAttribute('onclick', 'javascript: closeEventLog();');
+	eList.setAttribute('onClick', 'javascript: closeEventLog();');
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
 	eList.style.visibility = 'visible';
@@ -86,7 +86,7 @@ function openEventLog() {
 function closeEventLog() {
 	console.log('closed eventlog')
 	let eList = getID('eventList');
-	eList.setAttribute('onclick', 'javascript: openEventLog();');
+	eList.setAttribute('onClick', 'javascript: openEventLog();');
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
 	eList.style.visibility = 'hidden';
