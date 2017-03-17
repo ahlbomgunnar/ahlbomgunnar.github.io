@@ -230,28 +230,28 @@ function sendData() {
 	manipulateDOM('hide', 'textedit');
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=update&id='+editID+'&title='+getID('editTitle').value+'&author='+getID('editAuthor').value+'&key='+apiKey;
 	log('request', 'Sent edit request...');
-	manipulateData(url,'edit');
+	manipulateData(url);
 }
 
 // SENDS NEW DATA
 function viewData() {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=select&key='+apiKey;
 	log('request', 'Sent data fetch request...');
-	manipulateData(url,'view');
+	manipulateData(url);
 }
 
 // SENDS DELETE REQUEST
 function deleteData(objID) {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=delete&id='+objID+'&key='+apiKey;
 	log('request', 'Sent delete request...');
-	manipulateData(url,'del');
+	manipulateData(url);
 }
 
 // SENDS NEW DATA
 function addData(title, author) {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=insert&key='+apiKey+'&title='+getID('newTitle').value+'&author='+getID('newAuthor').value;
 	log('request', 'Sent insert request...');
-	manipulateData(url,'add');
+	manipulateData(url);
 }
 
 
@@ -268,24 +268,17 @@ function manipulateData(url,method) {
 	// Send HTTP request
 	getHttp('GET', url)
 		.then(function(response) {
-			// If successful
 			if(response.status === 'success') {
-				// If method is to view data
-				if(method === 'view') {
-					// Hide overlays, update local data and log it to console.
-					manipulateDOM('hide', 'loadingOverlay');
-					log('success', 'Success.');
-					updateLocalData(response);
-				}
-				// Else, view data
-				else {
-					log('recursion', 'Server response error, trying again... ');
-					viewData();}
-				}
-			// If unsuccessful, induce recursion
-		  else {
-		  	manipulateData(url, method);
-		  }
+				// Hide overlays, update local data and log it to console.
+				manipulateDOM('hide', 'loadingOverlay');
+				log('success', 'Success.');
+				updateLocalData(response);
+			}
+		  	else {
+				// If unsuccessful, induce recursion
+		  		log('recursion', 'Server error, trying again... ');
+		  		manipulateData(url);
+		  	}
 		})
 		.catch(function(error) {
 			// If failed, hide overlays and display error on event log
