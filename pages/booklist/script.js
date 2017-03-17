@@ -79,9 +79,8 @@ function hideOverlays() {
 	manipulateDOM('hide', 'loadingOverlay');
 }
 
-
+var eventLogOpen = false;
 function eventLog(statement) {
-	var eventLogOpen = false;
 	switch(statement) {
 		case 'menu': 
 			if(eventLogOpen === true) {
