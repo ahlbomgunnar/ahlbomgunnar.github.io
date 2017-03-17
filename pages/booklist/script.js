@@ -30,8 +30,6 @@ function manipulateDOM(action, id) {
 }
 
 
-// KEY FUNCTIONS
-
 // SELF-INVOKING FUNCTION TO CHECK IF USER HAS A KEY
 (function hasKey() {
 	if (localKey) {
@@ -70,6 +68,9 @@ function getNewKey() {
 	  		log('Error recieved: ' + error);
 	    });
 }
+
+
+
 
 // HIDES OVERLAYS
 function hideOverlays() {
@@ -111,6 +112,8 @@ function log(text) {
 
 
 
+
+
 // LOCAL DATA
 function updateLocalData(response) {
 	data = [];
@@ -126,7 +129,7 @@ function updateLocalData(response) {
 	for(let i in data) {
 		createBookObject(data[i]);
 	}
-	log('Data updated.');
+	log('Local data updated.');
 }
 
 
@@ -193,6 +196,10 @@ function getRandomBooks() {
 		  });
 	}
 }
+
+
+
+
 
 // SEND EDITED DATA
 function sendData() {
