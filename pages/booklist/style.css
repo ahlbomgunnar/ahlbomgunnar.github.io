@@ -4,11 +4,16 @@ html, body {
 	background-color:rgb(30,30,30);
 	min-width:500px;}
 
-.nav {
+#nav {
+	transition:0.3s ease;
+	opacity:0;
+	visibility:hidden;
 	background:#111; 
     background:-webkit-linear-gradient(#111, #333);
     background:linear-gradient(#111, #333);
 	border-bottom:2px solid #aaa;}
+
+
 
 #nav-mobile li a {
 	font-size:28px !important;}

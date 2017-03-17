@@ -30,7 +30,6 @@ function manipulateDOM(action, id) {
 }
 
 
-
 // KEY FUNCTIONS
 
 // SELF-INVOKING FUNCTION TO CHECK IF USER HAS A KEY
@@ -282,5 +281,11 @@ function getHttp(method, url) {
     http.send();
   });
 }
+
+document.body.addEventListener('onload', function() {
+	getID('nav').addEventListener('onload', function() {
+		manipulateDOM('display', 'nav');
+	})
+})
 
 
