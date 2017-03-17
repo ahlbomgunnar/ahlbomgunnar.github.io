@@ -62,13 +62,13 @@ function hideOverlays() {
 
 function openEventLog() {
 	let eList = getID('eventList');
-	getID('eventListMenu').onclick = eventListCloser();
+	getID('eventListMenu').onclick = function() {eventListCloser();};
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
 	eList.style.visibility = 'visible';}
 function eventListCloser() {
 	let eList = getID('eventList');
-	getID('eventListMenu').onclick = openEventLog();
+	getID('eventListMenu').onclick = function() {openEventLog()};
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
 	eList.style.visibility = 'hidden';}
