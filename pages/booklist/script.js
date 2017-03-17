@@ -2,7 +2,6 @@
 // TAB SIZE:2
 
 var apiKey;
-var localKey = localStorage.getItem('apiKey');
 var keyRequestUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey';
 var data = [];
 
@@ -32,8 +31,8 @@ function manipulateDOM(action, id) {
 
 // SELF-INVOKING FUNCTION TO CHECK IF USER HAS A KEY
 (function hasKey() {
-	if (localKey) {
-		apiKey = localKey;
+	if (localStorage.getItem('apiKey') !== null) {
+		apiKey = localStorage.getItem('apiKey');
 		log('init', 'Connecting to: https://www.forverkliga.se/JavaScript/api/crud.php?&key=' + apiKey);
 		viewData(); 
 		getID('currentApiKey').innerHTML = apiKey;
