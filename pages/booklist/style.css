@@ -176,6 +176,10 @@ html, body {
 	z-index:50;
 	overflow-y:scroll;}
 
+#eventListMenu {
+	transition:0.2s ease}
+#eventListMenu:hover  {
+	color:orange;}
 #eventListTrigger {
 	color:#fff;
 	z-index:75;}
