@@ -278,6 +278,7 @@ function getHttp(method, url) {
 }
 
 
-
-
+getID('app').addEventListener('load', function() {
+	manipulateDOM('display', 'app');
+})
 
