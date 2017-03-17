@@ -128,9 +128,8 @@ function log(type, text) {
 			break;
 		case 'update': text='<span class="eventUpdate">'+text+'</span>';
 			break;
-
-		textNode.innerHTML = time + ' - ' + text;
 	}
+	textNode.innerHTML = time + ' - ' + text;
 	getID('eventList').appendChild(textNode);
 }
 
