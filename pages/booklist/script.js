@@ -237,7 +237,7 @@ function sendData() {
 function viewData() {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=select&key='+apiKey;
 	log('request', 'Sent data fetch request...');
-	manipulateData(url);
+	manipulateData(url, 'view');
 }
 
 // SENDS DELETE REQUEST
@@ -261,18 +261,24 @@ function addData(title, author) {
 
 // HTTP AND PROMISES
 
-function manipulateData(url,method) {
+function manipulateData(url, method) {
 	//Display loading animation
 	hideOverlays();
 	manipulateDOM('display', 'loadingOverlay');
 	// Send HTTP request
-	getHttp('GET', url)
+	getHttp(url)
 		.then(function(response) {
 			if(response.status === 'success') {
 				// Hide overlays, update local data and log it to console.
-				manipulateDOM('hide', 'loadingOverlay');
-				log('success', 'Success.');
-				updateLocalData(response);
+				if(method === 'view') {
+					manipulateDOM('hide', 'loadingOverlay');
+					log('success', 'Success.');
+					updateLocalData(response);
+				}
+				else {
+					log('success', 'Success.');
+					viewData();
+				}
 			}
 		  	else {
 				// If unsuccessful, induce recursion
@@ -287,7 +293,7 @@ function manipulateData(url,method) {
 		});
 }
 
-function getHttp(method, url) {
+function getHttp(url) {
 	// Returns a promise for an XMLHttpRequest
   return new Promise(function(resolve, reject) {
     let http = new XMLHttpRequest();
@@ -301,7 +307,7 @@ function getHttp(method, url) {
       	}
       }
     }
-    http.open(method, url); 
+    http.open('GET', url); 
     http.send();
   });
 }
