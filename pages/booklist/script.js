@@ -34,7 +34,7 @@ function manipulateDOM(action, id) {
 (function hasKey() {
 	if (localKey) {
 		apiKey = localKey;
-		log('Connecting to: https://www.forverkliga.se/JavaScript/api/crud.php?&key=' + apiKey);
+		log('init', 'Connecting to: https://www.forverkliga.se/JavaScript/api/crud.php?&key=' + apiKey);
 		viewData(); 
 		getID('currentApiKey').innerHTML = apiKey;
 	}
@@ -117,7 +117,6 @@ function closeEventLog() {
 function log(type, text) {
 	let time = new Date().toLocaleTimeString('en-GB', {hour:'numeric', minute:'numeric'});
 	let textNode = document.createElement('p');
-	console.log(text);
 	switch(type) {
 		case 'error'     : text = '<span class="eventError">'     +text+ '</span>';
 			break;
@@ -129,8 +128,8 @@ function log(type, text) {
 			break;
 		case 'update'    : text = '<span class="eventUpdate">'    +text+ '</span>';
 			break;
+		case 'init'      : text = '<span class="eventInit">'      +text+ '</span>';
 	}
-	console.log(text)
 	textNode.innerHTML = time + ' - ' + text;
 	getID('eventList').appendChild(textNode);
 }
