@@ -79,12 +79,24 @@ function hideOverlays() {
 	manipulateDOM('hide', 'loadingOverlay');
 }
 
+let eventLogBool = 'closed';
+function eventLog(statement) {
+	if(statement) {
+		eventLogBool = statement;
+	}
+	if(eventLogBool == 'closed') {
+		openEventLog();
+		eventLogBool = 'open';
+	}
+	else {
+		eventLogBool = 'closed';
+		closeEventLog();
+	}
+}
+
 function openEventLog() {
 	console.log('opened eventlog');
 	let eList = getID('eventList');
-	setTimeout(function() {
-		eList.setAttribute('onclick','closeEventLog();');
-	},150);
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
 	eList.style.visibility = 'visible';
@@ -93,9 +105,6 @@ function openEventLog() {
 function closeEventLog() {
 	console.log('closed eventlog');
 	let eList = getID('eventList');
-	setTimeout(function() {
-		eList.setAttribute('onclick','openEventLog();');
-	},150);
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
 	eList.style.visibility = 'hidden';
