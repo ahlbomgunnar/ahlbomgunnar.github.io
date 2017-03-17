@@ -62,21 +62,22 @@ function hideOverlays() {
 
 function openEventLog() {
 	let eList = getID('eventList');
-	eList.setAttribute("onClick", "javascript: closeEventLog();");
+	eList.setAttribute('onclick', 'javascript: closeEventLog();');
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
 	eList.style.visibility = 'visible';}
 function closeEventLog() {
 	let eList = getID('eventList');
-	eList.setAttribute("onClick", "javascript: openEventLog();");
+	eList.setAttribute('onclick', 'javascript: openEventLog();');
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
 	eList.style.visibility = 'hidden';}
 
 // LOGS THE DATA TO EVENT LOG
 function log(text) {
+	let time = new Date().toLocaleTimeString('en-GB', {hour:'numeric', minute:'numeric'});
 	let textNode = document.createElement('p');
-		textNode.innerHTML = text;
+		textNode.innerHTML = time + ' - ' + text;
 	getID('eventList').appendChild(textNode);}
 
 
@@ -181,22 +182,33 @@ function addData(title, author) {
 // HTTP AND PROMISES
 
 function manipulateData(url,method) {
+
+	//Display loading animation
 	hideOverlays();
 	manipulateDOM('display', 'loadingOverlay');
+
+	// Send HTTP request
 	getHttp('GET', url)
 		.then(function(response) {
 			if(response.status === 'success') {
 				if(method === 'view') {
 					manipulateDOM('hide', 'loadingOverlay');
-					updateLocalData(response);} 
+					updateLocalData(response);
+					log('Successful response recieved.');
+				} 
 				else {
 					viewData();}
-				log('Successful response recieved...');}
+				}
 		  	else {
-		  		manipulateData(url, method);}})
+		  		manipulateData(url, method);
+		  	}
+		})
 		.catch(function(error) {
+			// If failed to load, hide overlays and display error on event log
 			manipulateDOM('hide', 'loadingOverlay');
-			log('Error recieved: ' + error);})}
+			log('Error recieved: ' + error);
+		});
+}
 
 function getHttp(method, url) {
   return new Promise(function(resolve, reject) {
@@ -204,13 +216,10 @@ function getHttp(method, url) {
     http.onreadystatechange = function() {
       if (this.readyState === 4) {
       	if(this.status === 200) {
-      		resolve(
-      			JSON.parse(
-      				this.responseText));}
+      		resolve(JSON.parse(this.responseText));
+      	}
       	else {
-      		reject(
-      			Error(
-      				this.statusText));}}}
+      		reject(Error(this.statusText));}}}
     http.open(method, url); 
     http.send();});}
 
