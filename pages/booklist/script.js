@@ -34,17 +34,18 @@ function manipulateDOM(action, id) {
 // SELF-INVOKING FUNCTION TO CHECK IF USER HAS A KEY
 (function hasKey() {
 	if (localKey) {
-		apiKey = localKey; 
+		apiKey = localKey;
 		viewData(); 
 		getID('currentApiKey').innerHTML = apiKey;
 	}
 	else {
 		getNewKey();
-	} 
+	}
 })();
 
 // SETS API KEY
 let setKey = key => {
+	log('Success. New API key recieved: ' + key);
 	apiKey = key;
 	localStorage.setItem("apiKey", key);
 	getID('currentApiKey').innerHTML = apiKey;
@@ -52,6 +53,7 @@ let setKey = key => {
 
 // REQUESTS A NEW KEY
 function getNewKey() {
+	log('Requested a new API key...')
 	getHttp('GET', keyRequestUrl)
 		.then(function(response) {
 			if(response.status === 'success') {
@@ -59,6 +61,7 @@ function getNewKey() {
 				viewData();
 			}
 	  		else {
+	  			log('Server response error, trying again...');
 	  			getNewKey();
 	  		}
 		})
@@ -78,7 +81,7 @@ function openEventLog() {
 	console.log('opened eventlog')
 	let eList = getID('eventList');
 	eList.onclick = function() {
-   closeEventLog();
+   		closeEventLog();
 	};
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
@@ -89,7 +92,7 @@ function closeEventLog() {
 	console.log('closed eventlog')
 	let eList = getID('eventList');
 	eList.onclick = function() {
-   openEventLog();
+    	openEventLog();
 	};
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
@@ -194,28 +197,28 @@ function getRandomBooks() {
 function sendData() {
 	manipulateDOM('hide', 'textedit');
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=update&id='+currentID+'&title='+getID('editTitle').value+'&author='+getID('editAuthor').value+'&key='+apiKey;
-	log('Sent request to edit object...');
+	log('Sent edit request...');
 	manipulateData(url,'edit');
 }
 
 // SENDS NEW DATA
 function viewData() {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=select&key='+apiKey;
-	log('Sent request to view what is in database...');
+	log('Sent data fetch request...');
 	manipulateData(url,'view');
 }
 
 // SENDS DELETE REQUEST
 function deleteData(objID) {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=delete&id='+objID+'&key='+apiKey;
-	log('Sent request to delete object...');
+	log('Sent delete request...');
 	manipulateData(url,'del');
 }
 
 // SENDS NEW DATA
 function addData(title, author) {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=insert&key='+apiKey+'&title='+getID('newTitle').value+'&author='+getID('newAuthor').value;
-	log('Sent request to add new object...');
+	log('Sent insert request...');
 	manipulateData(url,'add');
 }
 
@@ -239,11 +242,12 @@ function manipulateData(url,method) {
 				if(method === 'view') {
 					// Hide overlays, update local data and log it to console.
 					manipulateDOM('hide', 'loadingOverlay');
-					updateLocalData(response);
 					log('Successful response recieved.');
+					updateLocalData(response);
 				}
 				// Else, view data
 				else {
+					log('Server response error, trying again...');
 					viewData();}
 				}
 			// If unsuccessful, induce recursion
