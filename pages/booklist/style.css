@@ -2,15 +2,13 @@
 html, body {
 	margin:0; padding:0;
 	background-color:rgb(30,30,30);
-	min-width:500px;}
+	min-width:600px;}
 
 #nav {
 	background:#111; 
     background:-webkit-linear-gradient(#111, #333);
     background:linear-gradient(#111, #333);
 	border-bottom:2px solid #aaa;}
-
-
 
 #nav-mobile li a {
 	font-size:28px !important;}
@@ -172,6 +170,7 @@ html, body {
 	left:0;
 	right:0;
 	height:250px;
+	font-size:20px;
 	background-color:#111;
 	border:5px solid #fff;
 	z-index:50;
@@ -192,3 +191,14 @@ html, body {
 
 #eventListCloser:hover {
 	color:orange;}
+
+.eventError {
+	color:#D9534F!important;}
+.eventSuccess {
+	color:#5CB85C!important;}
+.eventRecursion{
+	color:#F0AD4E!important;}
+.eventRequest {
+	color:#CCCCCC!important;}
+.eventUpdate {
+	color:#5BC0DE!important;}

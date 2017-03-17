@@ -34,6 +34,7 @@ function manipulateDOM(action, id) {
 (function hasKey() {
 	if (localKey) {
 		apiKey = localKey;
+		log('Connecting to: https://www.forverkliga.se/JavaScript/api/crud.php?&key=' + apiKey);
 		viewData(); 
 		getID('currentApiKey').innerHTML = apiKey;
 	}
@@ -44,7 +45,7 @@ function manipulateDOM(action, id) {
 
 // SETS API KEY
 let setKey = key => {
-	log('Success. New API key recieved: ' + key);
+	log('success', 'Success. New API key recieved: ' + key);
 	apiKey = key;
 	localStorage.setItem("apiKey", key);
 	getID('currentApiKey').innerHTML = apiKey;
@@ -52,7 +53,7 @@ let setKey = key => {
 
 // REQUESTS A NEW KEY
 function getNewKey() {
-	log('Requested a new API key...')
+	log('request', 'Requested a new API key from: https://www.forverkliga.se/JavaScript/api/crud.php?requestKey');
 	getHttp('GET', keyRequestUrl)
 		.then(function(response) {
 			if(response.status === 'success') {
@@ -60,12 +61,12 @@ function getNewKey() {
 				viewData();
 			}
 	  		else {
-	  			log('Server response error, trying again...');
+	  			log('recursion', 'Server response error, trying again...');
 	  			getNewKey();
 	  		}
 		})
 		.catch(function(error) {
-	  		log('Error recieved: ' + error);
+	  		log('error', 'Error recieved: ' + error);
 	    });
 }
 
@@ -101,24 +102,35 @@ function eventLog(statement) {
 
 
 function openEventLog() {
-	console.log('opened eventlog');
 	let eList = getID('eventList');
 	eList.style.bottom = '0';
 	manipulateDOM('display', 'eventList');
 }
 
 function closeEventLog() {
-	console.log('closed eventlog');
 	let eList = getID('eventList');
 	eList.style.bottom = '-250px';
 	manipulateDOM('hide', 'eventList');
 }
 
 // LOGS THE DATA TO EVENT LOG
-function log(text) {
+function log(type, text) {
 	let time = new Date().toLocaleTimeString('en-GB', {hour:'numeric', minute:'numeric'});
 	let textNode = document.createElement('p');
+	switch(type) {
+		case 'error': text='<span class="eventError">'+text+'</span>';
+			break;
+		case 'success': text='<span class="eventSuccess">'+text+'</span>';
+			break;
+		case 'request': text='<span class="eventRequest">'+text+'</span>';
+			break;
+		case 'recursion': text='<span class="eventRecursion">'+text+'</span>';
+			break;
+		case 'update': text='<span class="eventUpdate">'+text+'</span>';
+			break;
+
 		textNode.innerHTML = time + ' - ' + text;
+	}
 	getID('eventList').appendChild(textNode);
 }
 
@@ -142,7 +154,7 @@ function updateLocalData(response) {
 	for(let i in data) {
 		createBookObject(data[i]);
 	}
-	log('Local data updated.');
+	log('update', 'Local data updated.');
 }
 
 
@@ -191,7 +203,7 @@ function getRandomBooks() {
 		  .then(  
 		    function(response) {  
 		      if (response.status !== 200) {  
-		        log('Error recieved: ' + response.status); return;
+		        log('error', 'Error recieved: ' + response.status); return;
 		      }
 		      response.json().then(function(data) {  
 		        for(let i=0; i<data.items.length; i++) {
@@ -205,7 +217,7 @@ function getRandomBooks() {
 		    	});
 		  })
 		  .catch(function(error) {  
-		    log('Error recieved: ', error);
+		    log('error', 'Error recieved: ', error);
 		  });
 	}
 }
@@ -217,29 +229,29 @@ function getRandomBooks() {
 // SEND EDITED DATA
 function sendData() {
 	manipulateDOM('hide', 'textedit');
-	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=update&id='+currentID+'&title='+getID('editTitle').value+'&author='+getID('editAuthor').value+'&key='+apiKey;
-	log('Sent edit request...');
+	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=update&id='+editID+'&title='+getID('editTitle').value+'&author='+getID('editAuthor').value+'&key='+apiKey;
+	log('request', 'Sent edit request...');
 	manipulateData(url,'edit');
 }
 
 // SENDS NEW DATA
 function viewData() {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=select&key='+apiKey;
-	log('Sent data fetch request...');
+	log('request', 'Sent data fetch request...');
 	manipulateData(url,'view');
 }
 
 // SENDS DELETE REQUEST
 function deleteData(objID) {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=delete&id='+objID+'&key='+apiKey;
-	log('Sent delete request...');
+	log('request', 'Sent delete request...');
 	manipulateData(url,'del');
 }
 
 // SENDS NEW DATA
 function addData(title, author) {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=insert&key='+apiKey+'&title='+getID('newTitle').value+'&author='+getID('newAuthor').value;
-	log('Sent insert request...');
+	log('request', 'Sent insert request...');
 	manipulateData(url,'add');
 }
 
@@ -263,12 +275,12 @@ function manipulateData(url,method) {
 				if(method === 'view') {
 					// Hide overlays, update local data and log it to console.
 					manipulateDOM('hide', 'loadingOverlay');
-					log('Successful response recieved.');
+					log('success', 'Success.');
 					updateLocalData(response);
 				}
 				// Else, view data
 				else {
-					log('Server response error, trying again...');
+					log('recursion', 'Server response error, trying again... ');
 					viewData();}
 				}
 			// If unsuccessful, induce recursion
@@ -279,7 +291,7 @@ function manipulateData(url,method) {
 		.catch(function(error) {
 			// If failed, hide overlays and display error on event log
 			manipulateDOM('hide', 'loadingOverlay');
-			log('Error recieved: ' + error);
+			log('error', 'Error recieved: ' + error);
 		});
 }
 
