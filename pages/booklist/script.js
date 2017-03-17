@@ -53,7 +53,7 @@ let setKey = key => {
 // REQUESTS A NEW KEY
 function getNewKey() {
 	log('request', 'Requested a new API key from: https://www.forverkliga.se/JavaScript/api/crud.php?requestKey');
-	getHttp('GET', keyRequestUrl)
+	getHttp(keyRequestUrl)
 		.then(function(response) {
 			if(response.status === 'success') {
 				setKey(response.key);
@@ -270,7 +270,7 @@ function manipulateData(url, method) {
 		.then(function(response) {
 			if(response.status === 'success') {
 				// Hide overlays, update local data and log it to console.
-				if(method === 'view') {
+				if(method == 'view') {
 					manipulateDOM('hide', 'loadingOverlay');
 					log('success', 'Success.');
 					updateLocalData(response);
