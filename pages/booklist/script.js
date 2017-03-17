@@ -79,20 +79,28 @@ function hideOverlays() {
 	manipulateDOM('hide', 'loadingOverlay');
 }
 
-let eventLogBool = 'closed';
+
 function eventLog(statement) {
-	if(statement) {
-		eventLogBool = statement;
-	}
-	if(eventLogBool == 'closed') {
-		openEventLog();
-		eventLogBool = 'open';
-	}
-	else {
-		eventLogBool = 'closed';
-		closeEventLog();
+	var eventLogOpen = false;
+	switch(statement) {
+		case 'menu': 
+			if(eventLogOpen) {
+				closeEventLog();
+				eventLogOpen = false;
+			}
+			else {
+				openEventLog();
+				eventLogOpen = true;
+			}
+			break;
+		case 'close': 
+			closeEventLog();
+			eventLogOpen = false;
+			break;
 	}
 }
+
+
 
 function openEventLog() {
 	console.log('opened eventlog');
