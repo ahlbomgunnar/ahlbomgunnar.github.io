@@ -1,13 +1,8 @@
 
-// TAB SIZE:2
-
 var apiKey;
 var keyRequestUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey';
 var data = [];
-
 var editID = null;
-
-
 
 
 
@@ -57,7 +52,8 @@ function getNewKey() {
 		.then(function(response) {
 			if(response.status === 'success') {
 				setKey(response.key);
-				viewData();
+				log('init', 'Connecting to: https://www.forverkliga.se/JavaScript/api/crud.php?&key=' + apiKey);
+				data = [];
 			}
 	  		else {
 	  			log('recursion', 'Server response error, trying again...');
@@ -294,7 +290,7 @@ function manipulateData(url, method) {
 }
 
 function getHttp(url) {
-	// Returns a promise for an XMLHttpRequest
+  // Returns a promise for an XMLHttpRequest
   return new Promise(function(resolve, reject) {
     let http = new XMLHttpRequest();
     http.onreadystatechange = function() {
