@@ -23,7 +23,9 @@ function manipulateDOM(action, id) {
 		case 'hide': 
 			obj.style.opacity = '0';
 			obj.style.visibility ='hidden';
-			break;}}
+			break;
+	}
+}
 
 
 
@@ -128,19 +130,23 @@ function createBookObject(obj) {
 			let cardTitle = document.createElement('h3');
 					cardTitle.innerHTML = obj.title;
 					cardTitle.addEventListener('click', function() {
-						openEditMenu(obj.id, obj.title, obj.author);});
+						openEditMenu(obj.id, obj.title, obj.author);
+					});
 			let cardAuthor = document.createElement('h5');
 					cardAuthor.innerHTML = obj.author;
 					cardAuthor.addEventListener('click', function() {
-						openEditMenu(obj.id, obj.title, obj.author);});
+						openEditMenu(obj.id, obj.title, obj.author);
+					});
 			let cardDelete = document.createElement('span');
 					cardDelete.innerHTML = '<i class="fa fa-close" aria-hidden="true"></i>';
 					cardDelete.addEventListener('click', function() {
-						deleteData(obj.id);});
+						deleteData(obj.id);
+					});
 		card.appendChild(cardDelete); 
 		card.appendChild(cardTitle); 
 		card.appendChild(cardAuthor); 
-	container.appendChild(card);}
+	container.appendChild(card);
+}
 
 
 // GETS VALUES FROM OBJECT TO USE IN EDIT MENU
@@ -148,7 +154,8 @@ function openEditMenu(id, title, author) {
 	editID = id;
 	manipulateDOM('display','textedit');
 	getID('editTitle').value = title;
-	getID('editAuthor').value = author;}
+	getID('editAuthor').value = author;
+}
 
 
 
@@ -160,45 +167,53 @@ function getRandomBooks() {
 		  .then(  
 		    function(response) {  
 		      if (response.status !== 200) {  
-		        log('Error recieved: ' + response.status); return;}
+		        log('Error recieved: ' + response.status); return;
+		      }
 		      response.json().then(function(data) {  
 		        for(let i=0; i<data.items.length; i++) {
 		        	if(data.items[i].volumeInfo.authors) {
 		        		let title = data.items[i].volumeInfo.title;
 		        		let author = data.items[i].volumeInfo.authors[0];
 		        		let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=insert&key='+apiKey+'&title='+title+'&author='+author;
-		        		manipulateData(url,'add');}
-		        }});})
+		        		manipulateData(url,'add');
+		        	}
+		        }
+		    	});
+		  })
 		  .catch(function(error) {  
-		    log('Error recieved: ', error);});}}
+		    log('Error recieved: ', error);
+		  });
+	}
+}
 
 // SEND EDITED DATA
 function sendData() {
 	manipulateDOM('hide', 'textedit');
-	if(getID('editTitle').value = '' && getID('editAuthor').value = '') {
-		deleteData(editID);
-	}
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=update&id='+currentID+'&title='+getID('editTitle').value+'&author='+getID('editAuthor').value+'&key='+apiKey;
 	log('Sent request to edit object...');
-	manipulateData(url,'edit');}
+	manipulateData(url,'edit');
+}
 
 // SENDS NEW DATA
 function viewData() {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=select&key='+apiKey;
 	log('Sent request to view what is in database...');
-	manipulateData(url,'view');}
+	manipulateData(url,'view');
+}
 
 // SENDS DELETE REQUEST
 function deleteData(objID) {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=delete&id='+objID+'&key='+apiKey;
 	log('Sent request to delete object...');
-	manipulateData(url,'del');}
+	manipulateData(url,'del');
+}
 
 // SENDS NEW DATA
 function addData(title, author) {
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=insert&key='+apiKey+'&title='+getID('newTitle').value+'&author='+getID('newAuthor').value;
 	log('Sent request to add new object...');
-	manipulateData(url,'add');}
+	manipulateData(url,'add');
+}
 
 
 
@@ -208,11 +223,9 @@ function addData(title, author) {
 // HTTP AND PROMISES
 
 function manipulateData(url,method) {
-
 	//Display loading animation
 	hideOverlays();
 	manipulateDOM('display', 'loadingOverlay');
-
 	// Send HTTP request
 	getHttp('GET', url)
 		.then(function(response) {
@@ -249,9 +262,14 @@ function getHttp(method, url) {
       		resolve(JSON.parse(this.responseText));
       	}
       	else {
-      		reject(Error(this.statusText));}}}
+      		reject(Error(this.statusText));
+      	}
+      }
+    }
     http.open(method, url); 
-    http.send();});}
+    http.send();
+  });
+}
 
 
 
