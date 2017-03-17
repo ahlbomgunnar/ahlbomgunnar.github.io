@@ -53,7 +53,7 @@ function getNewKey() {
 			if(response.status === 'success') {
 				setKey(response.key);
 				log('init', 'Connecting to: https://www.forverkliga.se/JavaScript/api/crud.php?&key=' + apiKey);
-				data = [];
+				viewData();
 			}
 	  		else {
 	  			log('recursion', 'Server response error, trying again...');
