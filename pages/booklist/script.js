@@ -84,15 +84,14 @@ function eventLog(statement) {
 	var eventLogOpen = false;
 	switch(statement) {
 		case 'menu': 
-			if(eventLogOpen) {
+			if(eventLogOpen === true) {
 				closeEventLog();
 				eventLogOpen = false;
-			}
+				break;}
 			else {
 				openEventLog();
 				eventLogOpen = true;
-			}
-			break;
+				break;}
 		case 'close': 
 			closeEventLog();
 			eventLogOpen = false;
@@ -106,16 +105,14 @@ function openEventLog() {
 	console.log('opened eventlog');
 	let eList = getID('eventList');
 	eList.style.bottom = '0';
-	eList.style.opacity = '1';
-	eList.style.visibility = 'visible';
+	manipulateDOM('display', 'eventList');
 }
 
 function closeEventLog() {
 	console.log('closed eventlog');
 	let eList = getID('eventList');
 	eList.style.bottom = '-250px';
-	eList.style.opacity = '0';
-	eList.style.visibility = 'hidden';
+	manipulateDOM('hide', 'eventList');
 }
 
 // LOGS THE DATA TO EVENT LOG
