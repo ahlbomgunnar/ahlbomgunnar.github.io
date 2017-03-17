@@ -17,7 +17,7 @@
 	    <li><a href="#" title="Click to add a new book to the list" onclick="manipulateDOM('display', 'module')"><i class="fa fa-plus" aria-hidden="true"></i></a></li>
 	    <li><a href="#" title="Click to refresh data" onclick="viewData()"><i class="fa fa-refresh" aria-hidden="true"></i></a></li>
 	    <li><a href="#" title="Click to add random books" onclick="getRandomBooks()">Add random books</a></li>
-	    <li><a href="#" title="Click to open event log" onclick="openEventLog()"><i class="fa fa-list-ul" id="eventListTrigger" aria-hidden="true"></i></a></li>
+	    <li><a href="#" id="eventListMenu" title="Click to open event log" onclick="openEventLog()"><i class="fa fa-list-ul" id="eventListTrigger" aria-hidden="true"></i></a></li>
 	  </ul>
 	</div>
 </nav>
@@ -51,7 +51,7 @@
 </div>
 
 <div id="eventList">
-	<i class="fa fa-close" id="eventListCloser" aria-hidden="true"></i>
+	<i class="fa fa-close" onclick="eventListCloser()" id="eventListCloser" aria-hidden="true"></i>
 </div>
 
 
