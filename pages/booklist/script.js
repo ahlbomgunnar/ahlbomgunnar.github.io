@@ -6,7 +6,7 @@ var localKey = localStorage.getItem('apiKey');
 var keyRequestUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey';
 var data = [];
 
-var currentID = null;
+var editID = null;
 
 
 
@@ -29,17 +29,24 @@ function manipulateDOM(action, id) {
 
 // KEY FUNCTIONS
 
-// SELF-INVOKING KEY TO CHECK IF USER HAS A KEY
+// SELF-INVOKING FUNCTION TO CHECK IF USER HAS A KEY
 (function hasKey() {
-	if (localKey) {apiKey = localKey; viewData(); getID('currentApiKey').innerHTML = apiKey;}
-	else          {getNewKey();} 
+	if (localKey) {
+		apiKey = localKey; 
+		viewData(); 
+		getID('currentApiKey').innerHTML = apiKey;
+	}
+	else {
+		getNewKey();
+	} 
 })();
 
 // SETS API KEY
 let setKey = key => {
 	apiKey = key;
 	localStorage.setItem("apiKey", key);
-	getID('currentApiKey').innerHTML = apiKey;}
+	getID('currentApiKey').innerHTML = apiKey;
+}
 
 // REQUESTS A NEW KEY
 function getNewKey() {
@@ -47,38 +54,49 @@ function getNewKey() {
 		.then(function(response) {
 			if(response.status === 'success') {
 				setKey(response.key);
-				viewData();}
-	  	else {
-	  		getNewKey();}})
+				viewData();
+			}
+	  		else {
+	  			getNewKey();
+	  		}
+		})
 		.catch(function(error) {
-	  	log('Error recieved: ' + error);});}
+	  		log('Error recieved: ' + error);
+	    });
+}
 
 // HIDES OVERLAYS
 function hideOverlays() {
 	manipulateDOM('hide', 'module');
 	manipulateDOM('hide', 'textedit');
-	manipulateDOM('hide', 'loadingOverlay');}
-
+	manipulateDOM('hide', 'loadingOverlay');
+}
 
 function openEventLog() {
+	console.log('opened eventlog')
 	let eList = getID('eventList');
 	eList.setAttribute('onclick', 'javascript: closeEventLog();');
 	eList.style.bottom = '0';
 	eList.style.opacity = '1';
-	eList.style.visibility = 'visible';}
+	eList.style.visibility = 'visible';
+}
+
 function closeEventLog() {
+	console.log('closed eventlog')
 	let eList = getID('eventList');
 	eList.setAttribute('onclick', 'javascript: openEventLog();');
 	eList.style.bottom = '-250px';
 	eList.style.opacity = '0';
-	eList.style.visibility = 'hidden';}
+	eList.style.visibility = 'hidden';
+}
 
 // LOGS THE DATA TO EVENT LOG
 function log(text) {
 	let time = new Date().toLocaleTimeString('en-GB', {hour:'numeric', minute:'numeric'});
 	let textNode = document.createElement('p');
 		textNode.innerHTML = time + ' - ' + text;
-	getID('eventList').appendChild(textNode);}
+	getID('eventList').appendChild(textNode);
+}
 
 
 
@@ -91,10 +109,15 @@ function updateLocalData(response) {
 		let obj = {
 			author: response.data[i].author,
 			title: response.data[i].title, 
-			id: response.data[i].id}
-		data.push(obj);}
+			id: response.data[i].id
+		}
+		data.push(obj);
+	}
 	for(let i in data) {
-		createBookObject(data[i]);}}
+		createBookObject(data[i]);
+	}
+	log('Local data updated.');
+}
 
 
 // DATA VISUALIZATION
@@ -122,7 +145,7 @@ function createBookObject(obj) {
 
 // GETS VALUES FROM OBJECT TO USE IN EDIT MENU
 function openEditMenu(id, title, author) {
-	currentID = id;
+	editID = id;
 	manipulateDOM('display','textedit');
 	getID('editTitle').value = title;
 	getID('editAuthor').value = author;}
@@ -152,6 +175,9 @@ function getRandomBooks() {
 // SEND EDITED DATA
 function sendData() {
 	manipulateDOM('hide', 'textedit');
+	if(getID('editTitle').value = '' && getID('editAuthor').value = '') {
+		deleteData(editID);
+	}
 	let url = 'https://www.forverkliga.se/JavaScript/api/crud.php?op=update&id='+currentID+'&title='+getID('editTitle').value+'&author='+getID('editAuthor').value+'&key='+apiKey;
 	log('Sent request to edit object...');
 	manipulateData(url,'edit');}
@@ -190,12 +216,16 @@ function manipulateData(url,method) {
 	// Send HTTP request
 	getHttp('GET', url)
 		.then(function(response) {
+			// If successful
 			if(response.status === 'success') {
+				// If method is to view data
 				if(method === 'view') {
+					// Hide overlays, update local data and log it to console.
 					manipulateDOM('hide', 'loadingOverlay');
 					updateLocalData(response);
 					log('Successful response recieved.');
-				} 
+				}
+				// Else, view data
 				else {
 					viewData();}
 				}
