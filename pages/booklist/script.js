@@ -114,7 +114,7 @@ function closeEventLog() {
 
 // LOGS THE DATA TO EVENT LOG
 function log(type, text) {
-	let time = new Date().toLocaleTimeString('en-GB', {hour:'numeric', minute:'numeric'});
+	let time = new Date().toLocaleTimeString('en-GB', {hour:'numeric', minute:'numeric', second:'numeric'});
 	let textNode = document.createElement('p');
 	switch(type) {
 		case 'error'     : text = '<span class="eventError">'     +text+ '</span>';
