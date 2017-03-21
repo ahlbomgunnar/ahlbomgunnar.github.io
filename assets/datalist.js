@@ -1,6 +1,18 @@
 
 
 var datalist = [ 
+    { /* --- Done --- */
+        name:'Booklist',
+        desc:'Book list application.',
+        date:'March 2017',
+        src :'assets/img/booklist.png',
+        quote:'A list for all your books.',
+        filler:['A JavaScript proof-of-concep, like a to-do-list, that can be used to store book titles and their authors. Connected to a database to store data, uses localstorage to store current API key and contains an ability to fetch random books from the Google Books API.'],
+        technologies:['HTML5 + Materialize', 'CSS3 & Animations', 'JavaScript + AJAX', 'APIS: GoogleBooks', 'Database' ],
+        projectImgOne:'assets/img/booklist-web.png',
+        projectImgTwo:'assets/img/booklist-mobile.png',
+        href: 'pages/booklist'
+    },
 	{ /* --- Done --- */
         name:'Pick',
         desc:'Application for people who does not know where to go.',
