@@ -1,6 +1,18 @@
 
 
-var datalist = [ 
+var datalist = [
+	{ /* --- Done --- */
+        name:'Firebase Chat',
+        desc:'Database chat application.',
+        date:'March 2017',
+        src :'assets/img/firebasechat.png',
+        quote:'A database chat application.',
+        filler:['Firebase Chat is a chat application built for Googles Firebase Database-as-a-service. It is a live chat application that you can log in to. The best way for you to experience it is to just check it out. ^^'],
+        technologies:['HTML5 + Materialize', 'CSS3', 'JavaScript & Firebase'],
+        projectImgOne:'assets/img/firebasechat-web.png',
+        projectImgTwo:'assets/img/firebasechat-mobile.png',
+        href: 'pages/firebasechat'
+    },
     { /* --- Done --- */
         name:'Booklist',
         desc:'Book list application.',
