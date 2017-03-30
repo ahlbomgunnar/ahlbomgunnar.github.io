@@ -26,7 +26,7 @@ var googleProvider = new firebase.auth.GoogleAuthProvider();
 document.getElementById('githubSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(githubProvider)
 		.then(function(result) {
-	   		console.log('Signed in: ' + result);})
+	   		console.log(result);})
 		.catch(function(error) {
     		console.log(error.message);});});
 
