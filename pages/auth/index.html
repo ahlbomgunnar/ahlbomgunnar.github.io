@@ -70,6 +70,7 @@ getID('githubSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(githubProvider)
 	.then(function(result) {
 	   	setUserData(result);
+	   	displayUser(result);
 	})
 	.catch(function(error) {
     	console.log(error.message);
@@ -81,6 +82,7 @@ getID('googleSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(googleProvider)
 	.then(function(result) {
 	   	setUserData(result);
+	   	displayUser(result);
 	})
 	.catch(function(error) {
     	console.log(error.message);
@@ -124,8 +126,9 @@ function updateLocalUser() {
 }
 
 // APPEND USER DATA TO DISPLAY DIV
-function displayUser() {
-	updateLocalUser();
+function displayUser(result) {
+	console.log(result)
+	/*updateLocalUser();
 	let container = getID('user');
 	container.innerHTML = '';
 	let userImage = document.createElement('img');
@@ -140,7 +143,7 @@ function displayUser() {
 	container.appendChild(userEmail);
 	let userId = document.createElement('span');
 		userId.innerHTML = 'Signed in through: ' + userProvider + ' with user id: ' + userId;
-	container.appendChild(userId);
+	container.appendChild(userId);*/
 }
 
 function hiddenFunctions() {
