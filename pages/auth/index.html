@@ -70,8 +70,6 @@ getID('githubSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(githubProvider)
 	.then(function(result) {
 	   	setUserData(result);
-	   	updateLocalUser();
-	   	displayUser(result);
 	})
 	.catch(function(error) {
     	console.log(error.message);
@@ -83,8 +81,6 @@ getID('googleSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(googleProvider)
 	.then(function(result) {
 	   	setUserData(result);
-	   	updateLocalUser();
-	    displayUser(result);
 	})
 	.catch(function(error) {
     	console.log(error.message);
@@ -104,7 +100,7 @@ getID('signOut').addEventListener('click', e => {
 
 // DISPLAY IF AUTH
 auth.onAuthStateChanged(user => {
-	if (user) {DOM('loginPage', false); updateLocalUser();}
+	if (user) {DOM('loginPage', false); updateLocalUser(); displayUser(); hiddenFunctions();}
 	else 	  DOM('loginPage', true);
 });
 
@@ -147,8 +143,8 @@ function displayUser() {
 }
 
 function hiddenFunctions() {
-	if(userId == 21596856 && userName = 'Gunnar Ahlbom') getID('adminButton').disabled = false;
-	else {getID('adminButton').disabled = true;
+	if(userId == 21596856 && userName = 'Gunnar Ahlbom') {getID('adminButton').disabled = false;}
+	else {getID('adminButton').disabled = true;}
 }
 
 
