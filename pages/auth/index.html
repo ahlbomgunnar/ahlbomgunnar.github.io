@@ -102,6 +102,7 @@ auth.onAuthStateChanged(user => {
 
 //SET LOCALSTORAGE LOGIN DATA
 function setUserData(result) {
+	console.log(result)
 	let user = result.user.providerData[0];
 	localStorage.setItem('userName', user.displayName);
 	localStorage.setItem('userEmail', user.email);
