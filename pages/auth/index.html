@@ -102,7 +102,7 @@ getID('signOut').addEventListener('click', e => {
 
 // DISPLAY IF AUTH
 auth.onAuthStateChanged(user => {
-	if (user) {DOM('loginPage', false); displayUser(); hiddenFunctions();}
+	if (user) {DOM('loginPage', false); updateLocalUser();}
 	else 	  DOM('loginPage', true);
 });
 
@@ -123,12 +123,11 @@ function updateLocalUser() {
 	userId = localStorage.getItem('userId');
 	userProvider = localStorage.getItem('userProvider');
 	userImg = localStorage.getItem('userImg');
+	displayUser();
 }
 
 // APPEND USER DATA TO DISPLAY DIV
 function displayUser(result) {
-	console.log(result)
-	/*updateLocalUser();
 	let container = getID('user');
 	container.innerHTML = '';
 	let userImage = document.createElement('img');
@@ -143,7 +142,7 @@ function displayUser(result) {
 	container.appendChild(userEmail);
 	let userId = document.createElement('span');
 		userId.innerHTML = 'Signed in through: ' + userProvider + ' with user id: ' + userId;
-	container.appendChild(userId);*/
+	container.appendChild(userId);
 }
 
 function hiddenFunctions() {
