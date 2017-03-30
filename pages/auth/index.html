@@ -168,7 +168,7 @@ function displayUser(result) {
 			container.appendChild(userId);
 	}
 
-	if(userId == '21596856' && userName == 'Gunnar Ahlbom') {
+	if(localStorage.getItem('userId') == '21596856' && localStorage.getItem('userName') == 'Gunnar Ahlbom') {
 		getID('adminButton').disabled = false;
 	}
 	else {
