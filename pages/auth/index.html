@@ -61,16 +61,11 @@ const auth = firebase.auth();
 var githubProvider = new firebase.auth.GithubAuthProvider();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
 
-
-var userName, userEmail, userId, userProvider, userImg;
-
-
 // GITHUB SIGN IN
 getID('githubSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(githubProvider)
 	.then(function(result) {
 	   	setUserData(result);
-	   	displayUser(result);
 	})
 	.catch(function(error) {
     	console.log(error.message);
@@ -82,7 +77,6 @@ getID('googleSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(googleProvider)
 	.then(function(result) {
 	   	setUserData(result);
-	   	displayUser(result);
 	})
 	.catch(function(error) {
     	console.log(error.message);
@@ -102,8 +96,8 @@ getID('signOut').addEventListener('click', e => {
 
 // DISPLAY IF AUTH
 auth.onAuthStateChanged(user => {
-	if (user) {DOM('loginPage', false); updateLocalUser();}
-	else 	  DOM('loginPage', true);
+	if (user) {DOM('loginPage', false); displayUser();}
+	else 	  {DOM('loginPage', true);}
 });
 
 //SET LOCALSTORAGE LOGIN DATA
@@ -116,39 +110,29 @@ function setUserData(result) {
 	localStorage.setItem('userImg', user.photoUrl);
 }
 
-// UPDATE LOCAL USER DATA
-function updateLocalUser() {
-	userName = localStorage.getItem('userName');
-	userEmail = localStorage.getItem('userEmail');
-	userId = localStorage.getItem('userId');
-	userProvider = localStorage.getItem('userProvider');
-	userImg = localStorage.getItem('userImg');
-	displayUser();
-}
-
 // APPEND USER DATA TO DISPLAY DIV
-function displayUser(result) {
+function displayUser() {
 	let container = getID('user');
 	container.innerHTML = '';
 	let userImage = document.createElement('img');
-		userImage.src = userImg;
-		userImage.alt = userName;
+		userImage.src = localStorage.getItem('userImg');
+		userImage.alt = localStorage.getItem('userName');
 	container.appendChild(userImage);
 	let userName = document.createElement('h3');
-		userName.innerHTML = userName;
+		userName.innerHTML = localStorage.getItem('userName');
 	container.appendChild(userName);
 	let userEmail = document.createElement('h5');
-		userEmail.innerHTML = userEmail;
+		userEmail.innerHTML = localStorage.getItem('userEmail');
 	container.appendChild(userEmail);
 	let userId = document.createElement('span');
-		userId.innerHTML = 'Signed in through: ' + userProvider + ' with user id: ' + userId;
+		userId.innerHTML = 'Signed in through: ' + localStorage.getItem('userProvider'); + ' with user id: ' + localStorage.getItem('userId');
 	container.appendChild(userId);
+
+
+	if(userId == '21596856' && userName == 'Gunnar Ahlbom') {getID('adminButton').disabled = false;}
+	else {getID('adminButton').disabled = true;
 }
 
-function hiddenFunctions() {
-	if(userId == '21596856' && userName == 'Gunnar Ahlbom') {getID('adminButton').disabled = false;}
-	else {getID('adminButton').disabled = true;}
-}
 
 
 </script>
