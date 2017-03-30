@@ -5,7 +5,8 @@
 </head>
 <body>
 
-<button id="signIn">Sign in</button>
+<button id="githubSignin">Github</button>
+<button id="googleSignin">Google</button>
 <button id="signOut">Sign out</button>
 
 <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
@@ -19,14 +20,20 @@ var config = {
     messagingSenderId: "156229110097"};
 firebase.initializeApp(config);
 
-var provider = new firebase.auth.GithubAuthProvider();
+var githubProvider = new firebase.auth.GithubAuthProvider();
+var googleProvider = new firebase.auth.GoogleAuthProvider();
 
-document.getElementById('signIn').addEventListener('click', e => {
-	firebase.auth().signInWithPopup(provider)
+document.getElementById('githubSignin').addEventListener('click', e => {
+	firebase.auth().signInWithPopup(githubProvider)
 		.then(function(result) {
-		    var token = result.credential.accessToken;
-	   		var user = result.user;
-	   		console.log('Signed in: ' + token, + ', ' + user);})
+	   		console.log('Signed in: ' + result);})
+		.catch(function(error) {
+    		console.log(error.message);});});
+
+document.getElementById('googleSignin').addEventListener('click', e => {
+	firebase.auth().signInWithPopup(githubProvider)
+		.then(function(result) {
+	   		console.log('Signed in: ' + result);})
 		.catch(function(error) {
     		console.log(error.message);});});
 
