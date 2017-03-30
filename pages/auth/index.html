@@ -2,15 +2,35 @@
 <html>
 <head>
 	<title>Auth</title>
+<style>
+
+.£fixed {position:fixed;}
+.£fixed-corners {top:0; left:0; right:0; bottom:0;}
+.£fullscreen {width:100vw; height:100vh;}
+.£visible-overlay {z-index:1000;}
+
+</style>
 </head>
 <body>
 
-<button id="githubSignin">Github</button>
-<button id="googleSignin">Google</button>
+<div id="loginPage" class="£fixed £fullscreen £fixed-corners £visible-overlay">
+	<button id="githubSignin">Github</button>
+	<button id="googleSignin">Google</button>
+</div>
+
+<div id="user"></div>
 <button id="signOut">Sign out</button>
 
 <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 <script>
+
+let getID = id => document.getElementById(id);
+let DOM = (id, state) => {
+	let obj = getID(id).style;
+	if(state) {obj.visibility = 'visible'; obj.display = 'block'; obj.opacity = '1';}
+	else {obj.visibility = 'hidden'; obj.display = 'none'; obj.opacity = '0';}}
+
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyBhEbBw2glQVPOjAWyAoSFYwrVLc-CUwCo",
@@ -23,26 +43,66 @@ firebase.initializeApp(config);
 var githubProvider = new firebase.auth.GithubAuthProvider();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
 
-document.getElementById('githubSignin').addEventListener('click', e => {
+// GITHUB SIGN IN
+getID('githubSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(githubProvider)
-		.then(function(result) {
-	   		console.log(result);})
-		.catch(function(error) {
-    		console.log(error.message);});});
+	.then(function(result) {
+	   	displayUser(result);
+	})
+	.catch(function(error) {
+    	console.log(error.message);
+    });
+});
 
-document.getElementById('googleSignin').addEventListener('click', e => {
+// GOOGLE SIGN IN
+getID('googleSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(githubProvider)
-		.then(function(result) {
-	   		console.log('Signed in: ' + result);})
-		.catch(function(error) {
-    		console.log(error.message);});});
+	.then(function(result) {
+	    displayUser(result);
+	})
+	.catch(function(error) {
+    	console.log(error.message);
+    });
+});
 
-document.getElementById('signOut').addEventListener('click', e => {
+// SIGN OUT
+getID('signOut').addEventListener('click', e => {
 	firebase.auth().signOut()
-		.then(function() {
-  			console.log('Signed out.');})
-		.catch(function(error) {
-  			console.log(error.message);});});
+	.then(function() {
+  		console.log('Signed out.');
+  	})
+	.catch(function(error) {
+  		console.log(error.message);
+  	});
+});
+
+// DISPLAY IF AUTH
+auth.onAuthStateChanged(user => {
+	if (user) DOM('loginPage', false);
+	else 	  DOM('loginPage', true);
+});
+
+function displayUser(result) {
+	let user = result.user.providerData[0];
+	let container = getID('user');
+	
+	let userImage = document.createElement('img');
+		userImage.src = user.photoURL;
+		userImage.alt = user.displayName;
+		container.appendChild(userImage);
+
+	let userName = document.createElement('h3');
+		userName.innerHTML = user.displayName;
+		container.appendChild(userName);
+
+	let userEmail = document.createElement('h5');
+		userEmail.innerHTML = user.email;
+		container.appendChild(userEmail);
+	
+	let userId = document.createElement('span');
+		userId.innerHTML = 'Signed in through: ' + user.providerId + ' with User ID: ' + user.uid;
+		container.appendChild(userId);}
+
 
 </script>
 </body>
