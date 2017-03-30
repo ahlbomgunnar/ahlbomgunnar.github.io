@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Auth</title>
+</head>
+<body>
+
+<button id="signIn">Sign in</button>
+<button id="signOut">Sign out</button>
+
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+<script>
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyBhEbBw2glQVPOjAWyAoSFYwrVLc-CUwCo",
+    authDomain: "signinauth-713f2.firebaseapp.com",
+    databaseURL: "https://signinauth-713f2.firebaseio.com",
+    storageBucket: "signinauth-713f2.appspot.com",
+    messagingSenderId: "156229110097"};
+firebase.initializeApp(config);
+
+var provider = new firebase.auth.GithubAuthProvider();
+
+document.getElementById('signIn').addEventListener('click', e => {
+	firebase.auth().signInWithPopup(provider)
+		.then(function(result) {
+		    var token = result.credential.accessToken;
+	   		var user = result.user;
+	   		console.log('Signed in: ' + token, + ', ' + user);})
+		.catch(function(error) {
+    		console.log(error.message);});});
+
+document.getElementById('signOut').addEventListener('click', e => {
+	firebase.auth().signOut()
+		.then(function() {
+  			console.log('Signed out.');})
+		.catch(function(error) {
+  			console.log(error.message);});});
+
+</script>
+</body>
+</html>
