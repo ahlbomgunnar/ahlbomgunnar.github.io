@@ -100,7 +100,7 @@ getID('signOut').addEventListener('click', e => {
 
 // DISPLAY IF AUTH
 auth.onAuthStateChanged(user => {
-	if (user) {DOM('loginPage', false); updateLocalUser(); displayUser(); hiddenFunctions();}
+	if (user) {DOM('loginPage', false); displayUser(); hiddenFunctions();}
 	else 	  DOM('loginPage', true);
 });
 
@@ -125,6 +125,7 @@ function updateLocalUser() {
 
 // APPEND USER DATA TO DISPLAY DIV
 function displayUser() {
+	updateLocalUser();
 	let container = getID('user');
 	container.innerHTML = '';
 	let userImage = document.createElement('img');
