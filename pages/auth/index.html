@@ -44,8 +44,17 @@
 let getID = id => document.getElementById(id);
 let DOM = (id, state) => {
 	let obj = getID(id).style;
-	if(state) {obj.visibility = 'visible'; obj.display = 'block'; obj.opacity = '1';}
-	else {obj.visibility = 'hidden'; obj.display = 'none'; obj.opacity = '0';}}
+	if(state) {
+		obj.visibility = 'visible'; 
+		obj.display = 'block'; 
+		obj.opacity = '1';
+	}
+	else {
+		obj.visibility = 'hidden'; 
+		obj.display = 'none'; 
+		obj.opacity = '0';
+	}
+}
 
 
 // Initialize Firebase
@@ -65,7 +74,7 @@ var googleProvider = new firebase.auth.GoogleAuthProvider();
 getID('githubSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(githubProvider)
 	.then(function(result) {
-	   	setUserData(result);
+	   	displayUser(result);
 	})
 	.catch(function(error) {
     	console.log(error.message);
@@ -76,7 +85,7 @@ getID('githubSignin').addEventListener('click', e => {
 getID('googleSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(googleProvider)
 	.then(function(result) {
-	   	setUserData(result);
+	   	displayUser(result);
 	})
 	.catch(function(error) {
     	console.log(error.message);
@@ -100,38 +109,71 @@ auth.onAuthStateChanged(user => {
 	else 	  {DOM('loginPage', true);}
 });
 
-//SET LOCALSTORAGE LOGIN DATA
-function setUserData(result) {
-	console.log(result)
-	let user = result.user.providerData[0];
-	localStorage.setItem('userName', user.displayName);
-	localStorage.setItem('userEmail', user.email);
-	localStorage.setItem('userId', user.uid);
-	localStorage.setItem('userProvider', user.providerId);
-	localStorage.setItem('userImg', user.photoUrl);
-}
-
 // APPEND USER DATA TO DISPLAY DIV
-function displayUser() {
-	let container = getID('user');
-	container.innerHTML = '';
-	let userImage = document.createElement('img');
-		userImage.src = localStorage.getItem('userImg');
-		userImage.alt = localStorage.getItem('userName');
-	container.appendChild(userImage);
-	let userName = document.createElement('h3');
-		userName.innerHTML = localStorage.getItem('userName');
-	container.appendChild(userName);
-	let userEmail = document.createElement('h5');
-		userEmail.innerHTML = localStorage.getItem('userEmail');
-	container.appendChild(userEmail);
-	let userId = document.createElement('span');
-		userId.innerHTML = 'Signed in through: ' + localStorage.getItem('userProvider'); + ' with user id: ' + localStorage.getItem('userId');
-	container.appendChild(userId);
+function displayUser(result) {
+	if(result) {
+		let user = result.user.providerData[0];
+		let container = getID('user');
+			container.innerHTML = '';
 
+		let userImage = document.createElement('img');
+			userImage.src = user.photoURL;
+			userImage.alt = user.displayName;
+			container.appendChild(userImage);
 
-	if(userId == '21596856' && userName == 'Gunnar Ahlbom') {getID('adminButton').disabled = false;}
-	else {getID('adminButton').disabled = true;}
+		let userName = document.createElement('h3');
+			userName.innerHTML = user.displayName;
+			container.appendChild(userName);
+
+		let userEmail = document.createElement('h5');
+			userEmail.innerHTML = user.email;
+			container.appendChild(userEmail);
+
+		let userId = document.createElement('span');
+			userId.innerHTML = 'Signed in through: ' 
+							 + user.providerId; 
+							 + ' with user id: ' 
+							 + user.uid;
+			container.appendChild(userId);
+
+		localStorage.setItem('userName', user.displayName);
+		localStorage.setItem('userEmail', user.email);
+		localStorage.setItem('userId', user.uid);
+		localStorage.setItem('userProvider', user.providerId);
+		localStorage.setItem('userImg', user.photoUrl);
+	}
+	
+	else {
+		let container = getID('user');
+			container.innerHTML = '';
+
+		let userImage = document.createElement('img');
+			userImage.src = localStorage.getItem('userImg');
+			userImage.alt = localStorage.getItem('userName');
+			container.appendChild(userImage);
+
+		let userName = document.createElement('h3');
+			userName.innerHTML = localStorage.getItem('userName');
+			container.appendChild(userName);
+
+		let userEmail = document.createElement('h5');
+			userEmail.innerHTML = localStorage.getItem('userEmail');
+			container.appendChild(userEmail);
+
+		let userId = document.createElement('span');
+			userId.innerHTML = 'Signed in through: ' 
+							 + localStorage.getItem('userProvider'); 
+							 + ' with user id: ' 
+							 + localStorage.getItem('userId');
+			container.appendChild(userId);
+	}
+
+	if(userId == '21596856' && userName == 'Gunnar Ahlbom') {
+		getID('adminButton').disabled = false;
+	}
+	else {
+		getID('adminButton').disabled = true;
+	}
 }
 
 
