@@ -4,16 +4,18 @@
 	<title>Auth</title>
 <style>
 
-.£fixed {position:fixed;}
-.£fixed-corners {top:0; left:0; right:0; bottom:0;}
-.£fullscreen {width:100vw; height:100vh;}
+.£fixed           {position:fixed;}
+.£fixed-corners   {top:0; left:0; right:0; bottom:0;}
+.£fullscreen      {width:100vw; height:100vh;}
 .£visible-overlay {z-index:1000;}
+.£scheme-light    {background-color:#fff; color:rgb(30,30,30);}
+.£scheme-dark     {background-color:rgb(30,30,30); color:#fff;}
 
 </style>
 </head>
 <body>
 
-<div id="loginPage" class="£fixed £fullscreen £fixed-corners £visible-overlay">
+<div id="loginPage" class="£fixed £fullscreen £fixed-corners £visible-overlay £scheme-dark">
 	<button id="githubSignin">Github</button>
 	<button id="googleSignin">Google</button>
 </div>
@@ -39,6 +41,8 @@ var config = {
     storageBucket: "signinauth-713f2.appspot.com",
     messagingSenderId: "156229110097"};
 firebase.initializeApp(config);
+
+const auth = firebase.auth();
 
 var githubProvider = new firebase.auth.GithubAuthProvider();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
