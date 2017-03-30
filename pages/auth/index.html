@@ -11,6 +11,20 @@
 .£scheme-light    {background-color:#fff; color:rgb(30,30,30);}
 .£scheme-dark     {background-color:rgb(30,30,30); color:#fff;}
 
+#user {
+	width:250px;
+	margin:auto;
+}
+
+#user img {
+	width:80px;
+}
+#user h3 {
+	color:#ccc;
+}
+#user h5 {
+	color:#aaa;
+}
 </style>
 </head>
 <body>
@@ -22,6 +36,7 @@
 
 <div id="user"></div>
 <button id="signOut">Sign out</button>
+<button id="adminButton">Clickable if admin</button>
 
 <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 <script>
@@ -43,14 +58,19 @@ var config = {
 firebase.initializeApp(config);
 
 const auth = firebase.auth();
-
 var githubProvider = new firebase.auth.GithubAuthProvider();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
+
+
+var userName, userEmail, userId, userProvider, userImg;
+
 
 // GITHUB SIGN IN
 getID('githubSignin').addEventListener('click', e => {
 	firebase.auth().signInWithPopup(githubProvider)
 	.then(function(result) {
+	   	setUserData(result);
+	   	updateLocalUser();
 	   	displayUser(result);
 	})
 	.catch(function(error) {
@@ -60,8 +80,10 @@ getID('githubSignin').addEventListener('click', e => {
 
 // GOOGLE SIGN IN
 getID('googleSignin').addEventListener('click', e => {
-	firebase.auth().signInWithPopup(githubProvider)
+	firebase.auth().signInWithPopup(googleProvider)
 	.then(function(result) {
+	   	setUserData(result);
+	   	updateLocalUser();
 	    displayUser(result);
 	})
 	.catch(function(error) {
@@ -82,30 +104,52 @@ getID('signOut').addEventListener('click', e => {
 
 // DISPLAY IF AUTH
 auth.onAuthStateChanged(user => {
-	if (user) DOM('loginPage', false);
+	if (user) {DOM('loginPage', false); updateLocalUser();}
 	else 	  DOM('loginPage', true);
 });
 
-function displayUser(result) {
+//SET LOCALSTORAGE LOGIN DATA
+function setUserData(result) {
 	let user = result.user.providerData[0];
+	localStorage.setItem('userName', user.displayName);
+	localStorage.setItem('userEmail', user.email);
+	localStorage.setItem('userId', user.uid);
+	localStorage.setItem('userProvider', user.providerId);
+	localStorage.setItem('userImg', user.photoUrl);
+}
+
+// UPDATE LOCAL USER DATA
+function updateLocalUser() {
+	userName = localStorage.getItem('userName');
+	userEmail = localStorage.getItem('userEmail');
+	userId = localStorage.getItem('userId');
+	userProvider = localStorage.getItem('userProvider');
+	userImg = localStorage.getItem('userImg');
+}
+
+// APPEND USER DATA TO DISPLAY DIV
+function displayUser() {
 	let container = getID('user');
-	
+	container.innerHTML = '';
 	let userImage = document.createElement('img');
-		userImage.src = user.photoURL;
-		userImage.alt = user.displayName;
-		container.appendChild(userImage);
-
+		userImage.src = userImg;
+		userImage.alt = userName;
+	container.appendChild(userImage);
 	let userName = document.createElement('h3');
-		userName.innerHTML = user.displayName;
-		container.appendChild(userName);
-
+		userName.innerHTML = userName;
+	container.appendChild(userName);
 	let userEmail = document.createElement('h5');
-		userEmail.innerHTML = user.email;
-		container.appendChild(userEmail);
-	
+		userEmail.innerHTML = userEmail;
+	container.appendChild(userEmail);
 	let userId = document.createElement('span');
-		userId.innerHTML = 'Signed in through: ' + user.providerId + ' with User ID: ' + user.uid;
-		container.appendChild(userId);}
+		userId.innerHTML = 'Signed in through: ' + userProvider + ' with user id: ' + userId;
+	container.appendChild(userId);
+}
+
+function hiddenFunctions() {
+	if(userId == 21596856 && userName = 'Gunnar Ahlbom') getID('adminButton').disabled = false;
+	else {getID('adminButton').disabled = true;
+}
 
 
 </script>
