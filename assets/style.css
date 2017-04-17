@@ -29,6 +29,7 @@ body {opacity:1; transition:0.25s ease;}
 .£font-family-grotesk  {font-family:'HKGrotesk-Regular',sans-serif;}
 .£font-color-light     {color:#fff;}
 .£font-color-dark      {color:rgb(30,30,30);}
+.£font-color-orange    {color:orange;}
 .£bg-color-light       {background-color:#fff;}
 .£bg-color-dark        {background-color:rgb(30,30,30);}
 
@@ -51,11 +52,18 @@ body {opacity:1; transition:0.25s ease;}
 
 /* ---| ROW/COL SPACING |--- */
 
-.£col-spacing-sm {margin-top:25px;}
+.£col-spacing-sm    {margin-top:25px;}
 
+.£welcome-header    {font-size:55px; font-weight:bold; text-shadow:3px 4px 1px black; margin:0; margin-left:20px; border-bottom:4px solid #fff; box-shadow:0 3px 0 black;}
+.£welcome-subheader {font-size:42px; font-weight:bold; text-shadow:3px 3px 1px black; margin:0; margin-left:20px; margin-top:5px;}
 
-
-
+.£welcome-subheader:before {content: '<';}
+.£welcome-subheader:after  {content: ' />';}
+.£subheader-pre            {color:rgb(249,38,101);}
+.£subheader-after          {color:rgb(166,226,46);}
+.£pre-header               {color:rgb(82,217,239);}
+.£sub-header               {color:rgb(230,219,116);}
+.£overlay                  {background-color:rgba(0,0,0,0.3); width:100%; height:100%; position:absolute;}
 
 
 .footer-links {
