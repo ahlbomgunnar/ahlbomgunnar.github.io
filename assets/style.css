@@ -54,8 +54,8 @@ body {opacity:1; transition:0.25s ease;}
 
 .£col-spacing-sm    {margin-top:25px;}
 
-.£welcome-header    {font-size:55px; font-weight:bold; text-shadow:3px 4px 1px black; margin:0; margin-left:20px; border-bottom:4px solid #fff; box-shadow:0 3px 0 black;}
-.£welcome-subheader {font-size:42px; font-weight:bold; text-shadow:3px 3px 1px black; margin:0; margin-left:20px; margin-top:5px;}
+.£welcome-header    {font-size:4.1em; font-weight:bold; text-shadow:3px 4px 1px black; margin:0; margin-left:20px; border-bottom:4px solid #fff;}
+.£welcome-subheader {font-size:3em; font-weight:bold; text-shadow:3px 3px 1px black; margin:0; margin-left:20px; border-top:3px solid black;}
 
 .£welcome-subheader:before {content: '<';}
 .£welcome-subheader:after  {content: ' />';}
@@ -64,7 +64,7 @@ body {opacity:1; transition:0.25s ease;}
 .£pre-header               {color:rgb(82,217,239);}
 .£sub-header               {color:rgb(230,219,116);}
 .£overlay                  {background-color:rgba(0,0,0,0.3); width:100%; height:100%; position:absolute;}
-
+.£headlay                  {top:50%;left:50%; transform: translate(-50%,-50%); width:510px;}
 
 .footer-links {
   display:inline-block;
@@ -89,14 +89,28 @@ body {opacity:1; transition:0.25s ease;}
 .go-work-icon {
   color:#fff;
   position:absolute;
-  bottom:20px;
-  left:50%;
+  padding-top:30px;
+  font-size:24px;
+  line-height:50%;
+  padding-bottom:5px;
+  background-color:rgba(15,15,15,0.3);
+  left:0;
+  right:0;
+  bottom:0px;
+  text-align:center;
+  transition:0.2s ease;
+  
 }
 .go-work-icon i {
   position:relative;
-  right:30px;
   padding:15px;
   z-index:10;
+}
+
+.go-work-icon:hover {
+  cursor:pointer;
+  color:rgb(166,226,46);
+  background-color:rgba(15,15,15,0.7);
 }
 
 
