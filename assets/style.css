@@ -54,8 +54,8 @@ body {opacity:1; transition:0.25s ease;}
 
 .£col-spacing-sm    {margin-top:25px;}
 
-.£welcome-header    {font-size:4.1em; font-weight:bold; text-shadow:3px 4px 1px black; margin:0; margin-left:20px; border-bottom:4px solid #fff;}
-.£welcome-subheader {font-size:3em; font-weight:bold; text-shadow:3px 3px 1px black; margin:0; margin-left:20px; border-top:3px solid black;}
+.£welcome-header    {font-size:55px; font-weight:bold; text-shadow:3px 4px 1px black; margin:0; margin-left:20px; border-bottom:4px solid #fff;}
+.£welcome-subheader {font-size:40px; font-weight:bold; text-shadow:3px 3px 1px black; margin:0; margin-left:20px; border-top:3px solid black;}
 
 .£welcome-subheader:before {content: '<';}
 .£welcome-subheader:after  {content: ' />';}
@@ -64,7 +64,7 @@ body {opacity:1; transition:0.25s ease;}
 .£pre-header               {color:rgb(82,217,239);}
 .£sub-header               {color:rgb(230,219,116);}
 .£overlay                  {background-color:rgba(0,0,0,0.3); width:100%; height:100%; position:absolute;}
-.£headlay                  {top:50%;left:50%; transform: translate(-50%,-50%); width:515px;}
+.£headlay                  {top:50%;left:50%; transform: translate(-50%,-50%); width:485px;}
 
 .footer-links {
   display:inline-block;
