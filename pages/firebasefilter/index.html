@@ -3,39 +3,61 @@
 <head>
 	<title>Firebase Filter</title>
 <style>
-
 html,body {margin:0; padding:0; overflow-x:hidden; font-family:Verdana,sans-serif;}
-
+body::-webkit-scrollbar {
+    width: 1em;
+}
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
 #menu {
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	visibility:hidden;
+	top:-150px;
+	opacity:0;
+	transition:0.3s ease;
+	overflow-y:scroll;
 	width:100vw;
+	z-index:100;
 	background:rgb(30,30,30);
 	color:#efefef;
 	border:2px solid #111;
 	padding:12px;
 }
-
+#menu li {
+	list-style-type:none;
+}
 #menu input, #menu button {
 	padding:6px;
+	width:150px;
+	border:2px solid #333;
 }
-
+#menu button {
+	width:166px;
+}
 #menu span {
 	color:#efefef;
 }
-
 button {
 	border:2px solid #111;
 	background-color:#efefef;
 	font-weight:900;
 	transition:0.2s ease;
 }
-
 button:hover {
 	border-color:#efefef;
 	background-color:#111;
 	color:#efefef;
 	cursor:pointer;
 }
-
 .data {
 	transition:0.2s ease;
 	margin-top:0px !important;
@@ -47,24 +69,20 @@ button:hover {
 	margin-top:5px;
 	font-family:Arial,sans-serif;
 }
-
 .data:hover {
 	cursor:pointer;
 	background-color:beige;
 }
-
 .data-name {
 	color:#111;
 	font-size:22px;
 	text-decoration:underline;
 	font-weight:900;
 }
-
 .data-industry {
 	color:#333;
 	font-size:18px;
 }
-
 .data-networth {
 	font-size:15px;
 	color:#555;
@@ -75,38 +93,55 @@ button:hover {
 	color:#777;
 	font-weight:500;
 }
-
 #footer {
 	padding:12px;
 	background-color:rgb(30,30,30);
 	color:#fff;
 }
-
-
+#menuTrigger {
+	padding:14px;
+	z-index:1500;
+	position:fixed;
+	top:25px;
+	right:25px;
+}
 </style>
 </head>
 <body>
 
+<button id="menuTrigger" onclick="toggleMenu()">
+	Menu
+</button>
+
 <div id="menu">
-	<span>Sort by:</span>
-	<button id="orderName">Name</button>
-	<button id="orderPrice">Price</button>
-	<button id="orderIndustry">Industry</button>
-	<button id="orderDate">Date</button>
+	<ul>
+		<li><span>Sort by:</span></li>
+		<li><button id="orderName">Name</button></li>
+		<li><button id="orderPrice">Price</button></li>
+		<li><button id="orderIndustry">Industry</button></li>
+		<li><button id="orderDate">Date</button></li>
+	</ul>
+	<br/>
+	<ul>
+		<li><span>Add new item:</span></li>
+		<li><input type="text" placeholder="Name" id="name" /></li>
+		<li><input type="text" placeholder="Networth" id="networth" /></li>
+		<li><input type="text" placeholder="Industry" id="industry" /></li>
+		<li><button onclick="post()">Click to add</button></li>
+	</ul>
+	<br/>
+	<ul>
+		<li><span>Item limit:</span></li>
+		<li><span id="limitOutput"></span></li>
+		<li><input id="limitInput" placeholder="New limit..."></li>
+		<li><button id="limitBtn">Set</button></li>
+	</ul>
 </div>
+
 <div id="display"></div>
-<div id="footer">
-	<span id="limitOutput"></span>
-	<input id="limitInput" placeholder="New limit...">
-	<button id="limitBtn">Set</button>
-</div>
 
 <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 <script>
-
-var limit = 4;
-var startAt = 0;
-var currentChild = 'name';
 
 let getID = id => document.getElementById(id);
 let getTextValue = id => getID(id).value;
@@ -125,8 +160,9 @@ firebase.initializeApp(config);
 
 let database = firebase.database();
 let dataRef = database.ref('data/');
-
-
+let limit = 6;
+let startAt = 0;
+let currentChild = 'name';
 
 function orderByChild(typeOfChild) {
 	getID('display').innerHTML = '';
@@ -146,23 +182,17 @@ function orderByChild(typeOfChild) {
 
 orderByChild(currentChild);
 
-
-
 function defineObject(data) {
 	var container = getID('display');
 	let object = document.createElement('div');
 		object.className = 'data';
-
 	let dollars = '$' + data.networth;
-
 	factorize('p', 'data-name', data.name, object);
 	factorize('p', 'data-industry', data.industry, object);
 	factorize('p', 'data-networth', dollars, object);
 	factorize('p', 'data-time', data.time, object);
-	
 	container.appendChild(object);
 }
-
 
 function factorize(element, className, innerHTML, parent) {
 	let child = document.createElement(element);
@@ -171,29 +201,22 @@ function factorize(element, className, innerHTML, parent) {
 	parent.appendChild(child);
 }
 
-
-
-
 function post() {
 	let id = generateToken(12);
-
 	let name = getTextValue('name');         
-			   clearTextValue('name');
-
 	let industry = getTextValue('industry'); 
-	               clearTextValue('industry');
-
-	let networth = getTextValue('networth');      
-	               clearTextValue('networth');
-
+	let networth = getTextValue('networth');
+	clearTextValue('name');
+	clearTextValue('industry');
+	clearTextValue('networth');
 	firebase.database().ref('data/' + id).set({
 		name:name, 
 		industry:industry, 
 		time:new Date().toLocaleString(), 
 		networth:networth
 	});
+	orderByChild(currentChild);
 }
-
 
 function generateToken(length) {
     let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
@@ -222,11 +245,7 @@ function updateLimit() {
 		orderByChild(currentChild);
 	}
 	getID('limitInput').value = '';
-	
 }
-
-
-
 
 getID('limitBtn').addEventListener('click', event => 	  {updateLimit();});
 getID('orderName').addEventListener('click', event => 	  {orderByChild('name');});
@@ -234,6 +253,33 @@ getID('orderDate').addEventListener('click', event =>     {orderByChild('time');
 getID('orderPrice').addEventListener('click', event =>    {orderByChild('networth');});
 getID('orderIndustry').addEventListener('click', event => {orderByChild('industry');});
 
+var menuVisible = false;
+
+function toggleMenu() {
+	if(menuVisible) {
+		hideMenu();
+		menuVisible = false;
+	}
+	else if(!menuVisible) {
+		openMenu();
+		menuVisible = true;
+	}
+		console.log(menuVisible);
+
+}
+function hideMenu() {
+	getID('menu').style.visibility = 'hidden';
+	getID('menu').style.top = '-150px';
+	getID('menu').style.opacity = '0';
+
+}
+function openMenu() {
+	getID('menu').style.visibility = 'visible';
+	getID('menu').style.top = '0';
+	getID('menu').style.opacity = '1';
+
+
+}
 
 </script>
 </body>
