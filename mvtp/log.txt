@@ -1,0 +1,22 @@
+--------
+Sprint 1
+--------
+... Skapat navigations-komponent med React som renderar ett element med länkar till applikationens alla sidor.
+... Gjort ajaxanrop till newsapi
+... Hjälpte de andra utvecklarna(utom, petri) med React-komponenterna som använder sig av data från api(anledningen till att komponenterna ser snarlika ut).
+... (Slutet av sprint) Gjorde klart sportsidan med React enligt vår överenskomna standard och det apianrop petri skrivit.
+--------
+Spring 2
+--------
+... Bugfixing
+... Hjälpt till med renderingen av väderdatan i vader.jsx.
+... Ordnat så att filerna på github ligger i rätt folder.
+... Stylat nyhetsobjekten så att de individuella objekten står ut bättre i flödet.
+--------
+Sprint 3
+--------
+... Skapat firebasedatabas och reactkomponent som interagerar med denna i form av en chattapplikation. Chattapplikationen stylades och gavs möjlighet att autentisera via Google, och senare lägga till nya meddelanden.
+--------
+Sprint 4
+--------
+... Bugfixing & diskussion då projektet mestadels var klart.
