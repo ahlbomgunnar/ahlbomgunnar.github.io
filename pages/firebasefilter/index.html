@@ -105,6 +105,10 @@ button:hover {
 	top:25px;
 	right:25px;
 }
+#menu #nextPage,#menu #prevPage {
+	width:83px;
+	color:orange;
+}
 </style>
 </head>
 <body>
@@ -133,6 +137,8 @@ button:hover {
 	<ul>
 		<li><span>Item limit:</span></li>
 		<li><span id="limitOutput"></span></li>
+		<li><span id="pageNum"></span></li>
+		<li><button id="prevPage">Previous</button><button id="nextPage">Next</button></li>
 		<li><input id="limitInput" placeholder="New limit..."></li>
 		<li><button id="limitBtn">Set</button></li>
 	</ul>
@@ -161,31 +167,40 @@ firebase.initializeApp(config);
 let database = firebase.database();
 let dataRef = database.ref('data/');
 let limit = 6;
-let startAt = 0;
+let page = 1;
+let pageAmount;
 let currentChild = 'name';
+var menuVisible = false;
+var amount = 0;
 
 function orderByChild(typeOfChild) {
 	getID('display').innerHTML = '';
-	dataRef.orderByChild(typeOfChild).startAt(startAt).limitToFirst(limit).on('child_added', function(data) {
+	let startLimit = (page * limit) - limit;
+	let endLimit = page * limit;
+	console.log(startLimit + ', ' + endLimit)
+	dataRef.orderByChild(typeOfChild).startAt(startLimit).limitToFirst(endLimit).on('child_added', function(data) {
 		let obj = data.val();
+		console.log(1)
+		console.log(obj)
 		defineObject(obj);
-		dataRef.once('value', data => {
+		dataRef.on('value', data => {
 			amount = 0;
 			for(let i in data.val()) {
 				amount++;
 			}
-			getID('limitOutput').innerHTML = 'Displaying ' + limit + ' out of ' + amount;
+			pageAmount =  amount / limit;
+			getID('limitOutput').innerHTML = 'Displaying ' + limit + ' of ' + amount;
 		});
 		currentChild = typeOfChild;
+		getID('pageNum').innerHTML = 'Page: ' + page;
 	});
 }
 
-orderByChild(currentChild);
 
 function defineObject(data) {
 	var container = getID('display');
 	let object = document.createElement('div');
-		object.className = 'data';
+	object.className = 'data';
 	let dollars = '$' + data.networth;
 	factorize('p', 'data-name', data.name, object);
 	factorize('p', 'data-industry', data.industry, object);
@@ -247,14 +262,6 @@ function updateLimit() {
 	getID('limitInput').value = '';
 }
 
-getID('limitBtn').addEventListener('click', event => 	  {updateLimit();});
-getID('orderName').addEventListener('click', event => 	  {orderByChild('name');});
-getID('orderDate').addEventListener('click', event =>     {orderByChild('time');});
-getID('orderPrice').addEventListener('click', event =>    {orderByChild('networth');});
-getID('orderIndustry').addEventListener('click', event => {orderByChild('industry');});
-
-var menuVisible = false;
-
 function toggleMenu() {
 	if(menuVisible) {
 		hideMenu();
@@ -264,22 +271,47 @@ function toggleMenu() {
 		openMenu();
 		menuVisible = true;
 	}
-		console.log(menuVisible);
-
 }
+
 function hideMenu() {
 	getID('menu').style.visibility = 'hidden';
 	getID('menu').style.top = '-150px';
 	getID('menu').style.opacity = '0';
-
 }
+
 function openMenu() {
 	getID('menu').style.visibility = 'visible';
 	getID('menu').style.top = '0';
 	getID('menu').style.opacity = '1';
-
-
 }
+
+
+getID('limitBtn').addEventListener('click', event => 	  {updateLimit();});
+getID('orderName').addEventListener('click', event => 	  {orderByChild('name');});
+getID('orderDate').addEventListener('click', event =>     {orderByChild('time');});
+getID('orderPrice').addEventListener('click', event =>    {orderByChild('networth');});
+getID('orderIndustry').addEventListener('click', event => {orderByChild('industry');});
+getID('prevPage').addEventListener('click', event => {
+	if(page>1) {
+		page--;
+		orderByChild(currentChild);
+	}
+});
+getID('nextPage').addEventListener('click', event => {
+	if(page<=pageAmount) {
+		page++;
+		orderByChild(currentChild);
+	}
+});
+
+
+
+
+
+orderByChild(currentChild);
+
+
+
 
 </script>
 </body>
